@@ -1,1 +1,0 @@
-<div class={{show: this.shouldShow}}>Hello, Ignis!</div>

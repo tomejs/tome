@@ -1,6 +1,6 @@
 {
-  "name": "ignis",
-  "version": "1.0.0",
+  "name": "classic",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-sucrase": "^5.0.1",
     "@types/mocha": "^10.0.1",
