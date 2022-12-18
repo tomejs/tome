@@ -1,7 +1,7 @@
 {
-  "name": "classic-js",
+  "name": "tomejs",
   "version": "0.0.1",
-  "description": "",
+  "description": "A declarative Javascript library for building user interfaces - Easy to write, fast to run and elegant to use.",
   "main": "index.js",
   "scripts": {
     "temp": "npm run build && node dist/temp.js",
@@ -10,7 +10,7 @@
     "tsd": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ameen Ahmed",
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-sucrase": "^5.0.1",

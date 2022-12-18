@@ -7,7 +7,7 @@ describe("Parser test", () => {
     it(dir, () => {
       fs.readdirSync(`${__dirname}/samples/${dir}`).forEach(files => {
         if(files.includes('output.json')) {
-          const contents = fs.readFileSync(`${__dirname}/samples/${dir}/input.classic`, 'utf-8');
+          const contents = fs.readFileSync(`${__dirname}/samples/${dir}/input.micron`, 'utf-8');
           const output = fs.readFileSync(`${__dirname}/samples/${dir}/output.json`, 'utf-8');
           const outputObject = JSON.parse(output);
           const result = parse(contents);
