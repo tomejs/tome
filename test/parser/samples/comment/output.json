@@ -1,0 +1,25 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "\n  "
+        },
+        {
+          "type": "comment",
+          "value": " this is a comment "
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        }
+      ],
+      "expression": "",
+      "tagName": "div",
+      "type": "node"
+    }
+  ]
+}

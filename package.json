@@ -1,0 +1,22 @@
+{
+  "name": "ignis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "temp": "npm run build && node dist/temp.js",
+    "test": "mocha --exit",
+    "build": "rollup -c && npm run tsd",
+    "tsd": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-sucrase": "^5.0.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.11.17",
+    "mocha": "^10.2.0",
+    "rollup": "^3.7.5"
+  }
+}

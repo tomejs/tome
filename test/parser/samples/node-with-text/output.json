@@ -1,0 +1,17 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "Hello, Ignis"
+        }
+      ],
+      "expression": "",
+      "tagName": "div",
+      "type": "node"
+    }
+  ]
+}

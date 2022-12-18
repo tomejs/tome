@@ -1,0 +1,23 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [
+        {
+          "type": "expression",
+          "name": "class",
+          "value": "{show: this.shouldShow}"
+        }
+      ],
+      "children": [
+        {
+          "type": "text",
+          "value": "Hello, Ignis!"
+        }
+      ],
+      "expression": "",
+      "tagName": "div",
+      "type": "node"
+    }
+  ]
+}

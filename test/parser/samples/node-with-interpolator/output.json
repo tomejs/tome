@@ -1,0 +1,25 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "Hello, "
+        },
+        {
+          "type": "interpolator",
+          "expression": "this.name"
+        },
+        {
+          "type": "text",
+          "value": "!"
+        }
+      ],
+      "expression": "",
+      "tagName": "div",
+      "type": "node"
+    }
+  ]
+}

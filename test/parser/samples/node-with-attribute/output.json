@@ -1,0 +1,23 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [
+        {
+          "type": "string",
+          "name": "class",
+          "value": "test-class"
+        }
+      ],
+      "children": [
+        {
+          "type": "text",
+          "value": "Hello, Ignis!"
+        }
+      ],
+      "expression": "",
+      "tagName": "div",
+      "type": "node"
+    }
+  ]
+}
