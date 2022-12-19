@@ -16,7 +16,9 @@
     "@rollup/plugin-sucrase": "^5.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.17",
+    "acorn": "^8.8.1",
     "mocha": "^10.2.0",
-    "rollup": "^3.7.5"
+    "rollup": "^3.7.5",
+    "sucrase": "^3.29.0"
   }
 }

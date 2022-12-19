@@ -1,17 +1,14 @@
-{
-  "classString": "",
-  "template": [
-    {
-      "attributes": [],
-      "children": [
-        {
-          "type": "text",
-          "value": "Hello, Tome"
-        }
-      ],
-      "expression": "",
-      "tagName": "div",
-      "type": "node"
-    }
-  ]
-}
+[
+  {
+    "attributes": [],
+    "children": [
+      {
+        "type": "text",
+        "value": "Hello, Tome"
+      }
+    ],
+    "expression": "",
+    "tagName": "div",
+    "type": "node"
+  }
+]

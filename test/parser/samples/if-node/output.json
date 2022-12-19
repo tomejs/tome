@@ -1,33 +1,30 @@
-{
-  "classString": "",
-  "template": [
-    {
-      "attributes": [],
-      "children": [
-        {
-          "type": "text",
-          "value": "\n  "
-        },
-        {
-          "attributes": [],
-          "children": [
-            {
-              "type": "text",
-              "value": "Loading ..."
-            }
-          ],
-          "expression": "",
-          "tagName": "div",
-          "type": "node"
-        },
-        {
-          "type": "text",
-          "value": "\n"
-        }
-      ],
-      "expression": "this.isLoading",
-      "tagName": "if",
-      "type": "node"
-    }
-  ]
-}
+[
+  {
+    "attributes": [],
+    "children": [
+      {
+        "type": "text",
+        "value": "\n  "
+      },
+      {
+        "attributes": [],
+        "children": [
+          {
+            "type": "text",
+            "value": "Loading ..."
+          }
+        ],
+        "expression": "",
+        "tagName": "div",
+        "type": "node"
+      },
+      {
+        "type": "text",
+        "value": "\n"
+      }
+    ],
+    "expression": "this.isLoading",
+    "tagName": "if",
+    "type": "node"
+  }
+]

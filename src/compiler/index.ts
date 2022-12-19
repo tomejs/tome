@@ -1,7 +1,7 @@
 import parse from './parser';
 
 export default function compile (source: string) {
-  const { classString, template } = parse(source);
+  const { classAST, template } = parse(source);
 
-  console.log(classString, template);
+  console.log(classAST, template);
 }

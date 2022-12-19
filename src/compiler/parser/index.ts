@@ -1,3 +1,4 @@
+import * as acorn from 'acorn';
 import Tokenizer from './tokenizer';
 import parseJSBlock from './parse/parse_js_block';
 import parseTemplate from './parse/parse_template';
@@ -35,5 +36,7 @@ export default function parse (source: string) {
     template.pop();
   }
 
-  return { classString, template };
+  const classAST = acorn.parse(classString, { ecmaVersion: 2020, sourceType: 'module' });
+
+  return { classAST, template };
 }

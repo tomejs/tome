@@ -1,23 +1,20 @@
-{
-  "classString": "",
-  "template": [
-    {
-      "attributes": [
-        {
-          "type": "expression",
-          "name": "class",
-          "value": "this.classes"
-        }
-      ],
-      "children": [
-        {
-          "type": "text",
-          "value": "Hello, Tome!"
-        }
-      ],
-      "expression": "",
-      "tagName": "div",
-      "type": "node"
-    }
-  ]
-}
+[
+  {
+    "attributes": [
+      {
+        "type": "expression",
+        "name": "class",
+        "value": "this.classes"
+      }
+    ],
+    "children": [
+      {
+        "type": "text",
+        "value": "Hello, Tome!"
+      }
+    ],
+    "expression": "",
+    "tagName": "div",
+    "type": "node"
+  }
+]

@@ -1,12 +1,9 @@
-{
-  "classString": "",
-  "template": [
-    {
-      "attributes": [],
-      "children": [],
-      "expression": "",
-      "tagName": "div",
-      "type": "node"
-    }
-  ]
-}
+[
+  {
+    "attributes": [],
+    "children": [],
+    "expression": "",
+    "tagName": "div",
+    "type": "node"
+  }
+]

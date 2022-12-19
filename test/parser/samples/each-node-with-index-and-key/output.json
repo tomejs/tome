@@ -1,33 +1,30 @@
-{
-  "classString": "",
-  "template": [
-    {
-      "attributes": [],
-      "children": [
-        {
-          "type": "text",
-          "value": "\n  "
-        },
-        {
-          "attributes": [],
-          "children": [
-            {
-              "expression": "item",
-              "type": "interpolator"
-            }
-          ],
-          "expression": "",
-          "tagName": "div",
-          "type": "node"
-        },
-        {
-          "type": "text",
-          "value": "\n"
-        }
-      ],
-      "expression": "index, item in this.items, key",
-      "tagName": "each",
-      "type": "node"
-    }
-  ]
-}
+[
+  {
+    "attributes": [],
+    "children": [
+      {
+        "type": "text",
+        "value": "\n  "
+      },
+      {
+        "attributes": [],
+        "children": [
+          {
+            "expression": "item",
+            "type": "interpolator"
+          }
+        ],
+        "expression": "",
+        "tagName": "div",
+        "type": "node"
+      },
+      {
+        "type": "text",
+        "value": "\n"
+      }
+    ],
+    "expression": "index, item in this.items, key",
+    "tagName": "each",
+    "type": "node"
+  }
+]
