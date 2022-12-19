@@ -1,0 +1,6 @@
+<if(this.isLoading)>
+  <div>Loading ...</div>
+</if>
+<else>
+  <div>Loaded!</div>
+</else>

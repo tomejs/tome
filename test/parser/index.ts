@@ -2,7 +2,7 @@ import parse from "../../src/compiler/parser";
 import assert from "assert";
 import fs from 'fs';
 
-describe("Parser test", () => {
+describe("Parser", () => {
   fs.readdirSync(`${__dirname}/samples`).forEach(dir => {
     it(dir, () => {
       fs.readdirSync(`${__dirname}/samples/${dir}`).forEach(files => {

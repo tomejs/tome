@@ -14,7 +14,7 @@ export default function parseHTMLNode(tokens: Tokenizer): BlockNode {
   let expression = '';
   tokens.removeSpaces();
   if(tagName === 'if' || tagName === 'else-if' || tagName === 'else') {
-    expression = tagName === 'if' || tagName === 'else-if' ? parseParenthesizedExpression(tokens) : null;
+    expression = tagName === 'if' || tagName === 'else-if' ? parseParenthesizedExpression(tokens) : 'true';
   } else if(tagName === 'each') {
     expression = parseParenthesizedExpression(tokens);
   }
@@ -30,6 +30,7 @@ export default function parseHTMLNode(tokens: Tokenizer): BlockNode {
   } else {
     throw new Error('Unterminated html start tag');
   }
+
   children = parseTemplate(tokens);
 
   if(tokens.peekString(`</${tagName}>`)) {
