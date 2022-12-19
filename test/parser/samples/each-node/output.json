@@ -1,0 +1,33 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "\n  "
+        },
+        {
+          "attributes": [],
+          "children": [
+            {
+              "expression": "item",
+              "type": "interpolator"
+            }
+          ],
+          "expression": "",
+          "tagName": "div",
+          "type": "node"
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        }
+      ],
+      "expression": "item in this.items",
+      "tagName": "each",
+      "type": "node"
+    }
+  ]
+}

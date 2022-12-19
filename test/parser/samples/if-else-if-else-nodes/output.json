@@ -1,0 +1,97 @@
+{
+  "classString": "",
+  "template": [
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "\n  "
+        },
+        {
+          "attributes": [],
+          "children": [
+            {
+              "type": "text",
+              "value": "Negative"
+            }
+          ],
+          "expression": "",
+          "tagName": "div",
+          "type": "node"
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        }
+      ],
+      "expression": "this.num < 0",
+      "tagName": "if",
+      "type": "node"
+    },
+    {
+      "type": "text",
+      "value": "\n"
+    },
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "\n  "
+        },
+        {
+          "attributes": [],
+          "children": [
+            {
+              "type": "text",
+              "value": "Positive"
+            }
+          ],
+          "expression": "",
+          "tagName": "div",
+          "type": "node"
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        }
+      ],
+      "expression": "this.num > 0",
+      "tagName": "else-if",
+      "type": "node"
+    },
+    {
+      "type": "text",
+      "value": "\n"
+    },
+    {
+      "attributes": [],
+      "children": [
+        {
+          "type": "text",
+          "value": "\n  "
+        },
+        {
+          "attributes": [],
+          "children": [
+            {
+              "type": "text",
+              "value": "Zero"
+            }
+          ],
+          "expression": "",
+          "tagName": "div",
+          "type": "node"
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        }
+      ],
+      "expression": "true",
+      "tagName": "else",
+      "type": "node"
+    }
+  ]
+}

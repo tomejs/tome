@@ -1,0 +1,3 @@
+<each(index, item in this.items)>
+  <div>{ item }</div>
+</each>

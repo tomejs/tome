@@ -1,0 +1,9 @@
+<if(this.num < 0)>
+  <div>Negative</div>
+</if>
+<else-if(this.num > 0)>
+  <div>Positive</div>
+</else-if>
+<else>
+  <div>Zero</div>
+</else>
