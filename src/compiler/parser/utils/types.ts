@@ -32,4 +32,6 @@ export interface ControlNode {
 
 export type BlockNode = HTMLNode | ControlNode;
 
-export type NodeList = Array<BlockNode | HTMLTextNode | HTMLTextInterpolationNode>;
+export type AnyNode = BlockNode | HTMLTextNode | HTMLTextInterpolationNode;
+
+export type NodeList = Array<AnyNode>;
