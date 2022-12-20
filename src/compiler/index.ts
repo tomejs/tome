@@ -94,7 +94,7 @@ export default function compile (source: string): string {
 
   result += render(template);
 
-  template;
+  result += '}\n';
 
   return result;
 }

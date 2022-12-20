@@ -16,6 +16,20 @@ export default [
     plugins: [sucrase({transforms: ['typescript']})]
   },
   {
+    input: 'src/internal/index.ts',
+    output: [
+      {
+        file: 'dist/internal.js',
+        format: 'cjs'
+      },
+      {
+        file: 'dist/internal.mjs',
+        format: 'esm'
+      }
+    ],
+    plugins: [sucrase({transforms: ['typescript']})]
+  },
+  {
     input: 'src/temp.ts',
     output: [
       {

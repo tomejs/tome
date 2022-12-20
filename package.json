@@ -7,7 +7,19 @@
     "temp": "npm run build && node dist/temp.js",
     "test": "mocha --exit",
     "build": "rollup -c && npm run tsd",
-    "tsd": "tsc"
+    "tsd": "tsc -p src/compiler",
+    "prepare": "npm run build"
+  },
+  "exports": {
+    "./compiler": {
+      "types": "./types/compiler/index.d.ts",
+      "import": "./dist/compiler.mjs",
+      "require": "./dist/compiler.js"
+    },
+    "./internal": {
+      "import": "./dist/internal.mjs",
+      "require": "./dist/internal.js"
+    }
   },
   "keywords": [],
   "author": "Ameen Ahmed",

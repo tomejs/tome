@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "src",
     "lib": ["es2017"],
     "target": "es2017",
     "declaration": true,
@@ -12,7 +12,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "stripInternal": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
@@ -23,7 +22,7 @@
     ],
   },
   "exclude": [
-    "test",
-    "types"
+    "./test",
+    "./types"
   ]
 }
