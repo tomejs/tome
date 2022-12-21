@@ -1,4 +1,6 @@
 import sucrase from '@rollup/plugin-sucrase';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default [
   {
@@ -13,7 +15,13 @@ export default [
         format: 'esm'
       }
     ],
-    plugins: [sucrase({transforms: ['typescript']})]
+    plugins: [
+      resolve(),
+			commonjs({
+				include: ['node_modules/**']
+			}),
+      sucrase({transforms: ['typescript']})
+    ]
   },
   {
     input: 'src/internal/index.ts',

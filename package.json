@@ -1,8 +1,7 @@
 {
   "name": "tomejs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A declarative Javascript library for building user interfaces - Easy to write, fast to run and elegant to use.",
-  "main": "index.js",
   "scripts": {
     "temp": "npm run build && node dist/temp.js",
     "test": "mocha --exit",
@@ -29,6 +28,8 @@
   "author": "Ameen Ahmed",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-sucrase": "^5.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.17",
