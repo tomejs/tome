@@ -1,6 +1,6 @@
 {
   "name": "tomejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A declarative Javascript library for building user interfaces - Easy to write, fast to run and elegant to use.",
   "main": "index.js",
   "scripts": {
