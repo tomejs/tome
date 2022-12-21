@@ -30,6 +30,20 @@ export default [
     plugins: [sucrase({transforms: ['typescript']})]
   },
   {
+    input: 'src/runtime/index.ts',
+    output: [
+      {
+        file: 'dist/runtime.js',
+        format: 'cjs'
+      },
+      {
+        file: 'dist/runtime.mjs',
+        format: 'esm'
+      }
+    ],
+    plugins: [sucrase({transforms: ['typescript']})]
+  },
+  {
     input: 'src/temp.ts',
     output: [
       {

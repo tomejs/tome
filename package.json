@@ -11,6 +11,10 @@
     "prepare": "npm run build"
   },
   "exports": {
+    ".": {
+      "import": "./dist/runtime.mjs",
+      "require": "./dist/runtime.js"
+    },
     "./compiler": {
       "types": "./types/compiler/index.d.ts",
       "import": "./dist/compiler.mjs",
