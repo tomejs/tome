@@ -1,6 +1,6 @@
 import { Node, ConditionFunction, NodeCreationFunction } from './types';
 
-export function ifblock(conditions: ConditionFunction[], createFns: NodeCreationFunction[]) {
+export default function ifblock(conditions: ConditionFunction[], createFns: NodeCreationFunction[]) {
   const anchor: Comment = document.createComment('');
   let parentNode: HTMLElement = null;
   let nodes: Node[] = [];
