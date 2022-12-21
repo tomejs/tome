@@ -8,8 +8,6 @@ export function render (template: NodeList): string {
     result += renderNode(node, 'root');
   });
 
-  result += 'this.mounted();\n';
-
   result += '}\n';
 
   return result;

@@ -22,7 +22,7 @@ export default function renderNode(node: AnyNode, parentName: string): string {
   } else if(node.type === 'node') {
     const { tagName, attributes, children } = node as HTMLNode;
     const name = nodeName(tagName);
-    code += `const ${name} = node(${tagName}, ${JSON.stringify(attributes)});\n`;
+    code += `const ${name} = node('${tagName}', ${JSON.stringify(attributes)});\n`;
     children.forEach(child => {
       code += renderNode(child, name);
     });
