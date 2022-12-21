@@ -1,4 +1,4 @@
-import compile from "./compiler";
+import { compile } from "./compiler";
 
 
 console.log('Compiling ...');
