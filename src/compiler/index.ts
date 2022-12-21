@@ -80,6 +80,19 @@ export function compile (source: string): string {
   result += 'this.created();\n';
   result += '}\n\n';
 
+  stateProps.forEach(prop => {
+    result += `get ${prop}() {\n`;
+    result += `if(typeof this.$$${prop} === 'object') {`;
+    result += `return state(this.$$${prop}, () => this.$$pub('${prop}'));\n`;
+    result += `}\n`;
+    result += `return this.$$${prop};\n`;
+    result += '}\n\n';
+    result += `set ${prop}(value) {\n`;
+    result += `this.$$${prop} = value;\n`;
+    result += `this.$$pub('${prop}');\n`;
+    result += '}\n\n';
+  });
+
   getterNodes.forEach(node => {
     result += generate(node) + '\n';
   });
