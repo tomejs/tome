@@ -24,4 +24,10 @@ export default class Component {
   mounted() {}
   updated() {}
   destroyed() {}
+  render(target: HTMLElement) {}
+
+  mount(target: HTMLElement) {
+    this.render(target);
+    this.mounted();
+  }
 }
