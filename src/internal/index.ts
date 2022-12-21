@@ -6,7 +6,7 @@ import keyedEach from './nodes/keyed_each';
 import state from './state';
 import Component from './component';
 
-export default {
+export {
   node,
   text,
   ifblock,
