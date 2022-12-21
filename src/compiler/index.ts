@@ -5,7 +5,7 @@ import { PropertyDefinition, MethodDefinition, MemberExpression, DependencyList,
 import { generate } from 'astring';
 import { render } from './render';
 
-export default function compile (source: string): string {
+export function compile (source: string): string {
   const { classAST, template } = parse(source);
   let result = '';
   const reservedMethods: string[] = ['created', 'mounted', 'updated', 'destroyed'];
