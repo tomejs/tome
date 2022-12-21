@@ -16,7 +16,7 @@ export default function renderNode(node: AnyNode, parentName: string): string {
     const deps = getDeps(expression);
     code += `const ${name} = text(${expression})\n`;
     deps.forEach(dep => {
-      code += `this.$$sub('${dep}', () => {\nname.update(${expression});\n});\n`;
+      code += `this.$$sub('${dep}', () => {\n${name}.update(${expression});\n});\n`;
     });
     code += `${name}.mount(${parentName});\n`;
   } else if(node.type === 'node') {
