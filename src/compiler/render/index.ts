@@ -5,7 +5,7 @@ export function render (template: NodeList): string {
   let result = 'render(root) {\n';
 
   template.forEach(node => {
-    result += renderNode(node, 'root');
+    result += renderNode(node, 'root', template, template.indexOf(node));
   });
 
   result += '}\n';

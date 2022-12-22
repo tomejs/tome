@@ -7,6 +7,7 @@ import { render } from './render';
 
 export function compile (source: string): string {
   const { classAST, template } = parse(source);
+  console.log(JSON.stringify(template, null, 2));
   let result = '';
   const reservedMethods: string[] = ['created', 'mounted', 'updated', 'destroyed'];
   const stateProps: string[] = [];
@@ -57,8 +58,6 @@ export function compile (source: string): string {
       }
     }
   });
-
-  console.log(deps);
 
   result += 'import { Component, node, text, state, ifblock, each, keyedEach } from "tomejs/internal";\n\n';
 

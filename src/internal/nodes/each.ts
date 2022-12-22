@@ -33,8 +33,6 @@ export default function each(listFn: ListFunction, createFn: ListBlockCreationFu
       const list = listFn();
       const diff = list.length - cache.length;
 
-      console.log('update');
-
       if(diff > 0) {
         for(let i=0; i<diff; i++) {
           const { nodes, update }= createFn(list[cache.length + i], cache.length + i);
