@@ -53,7 +53,7 @@ export default function renderIfBlock (
       code += renderNode(child, name, children, index, true);
     });
 
-    return `() => {\nconst children = [];\n${code}\nreturn children;`;
+    return `() => {\nconst children = [];\n${code}\nreturn children;\n}`;
   }).join(',\n');
   code += `\n]);\n`;
 
