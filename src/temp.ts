@@ -24,7 +24,7 @@ class {
   </div>
   <ul>
     <each(item in this.todos as key(item.text))>
-      <li style={item ? '' : ''}>{item.text}</li>
+      <li style={todo.done ? 'text-decoration: line-through;' : ''}>{item.text}</li>
     </each>
   </ul>
 </div>

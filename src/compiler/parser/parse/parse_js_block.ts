@@ -10,11 +10,8 @@ export default function parseJSBlock(tokens: Tokenizer): string {
     } else if (tokens.peek() === '\'' || tokens.peek() === '"' || tokens.peek() === '`') {
       let quote = tokens.shift();
       contents += quote;
-      while(tokens.peek() !== quote) {
+      while(tokens.length() > 0 && tokens.peek() !== quote) {
         contents += tokens.shift();
-        if(tokens.peekString(`${quote}`)) {
-          contents += tokens.shiftNum(2);
-        }
       }
       contents += tokens.shift();
       continue;
