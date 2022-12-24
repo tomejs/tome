@@ -31,3 +31,10 @@ export interface DependencyList {
 export interface Initializers {
   [key: string]: Node;
 }
+
+export interface EachExpression {
+  collection: string;
+  item: string;
+  index: string;
+  key: string;
+}

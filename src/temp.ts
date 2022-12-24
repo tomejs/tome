@@ -33,6 +33,7 @@ class {
   { this.elaborateMsg() }
   { this.objectCount.deep.nested.value }
   { this.list[0] }
+  <!--
   <if (this.count < 10)>
     <if (this.count < 5)>
       Count is < 5
@@ -44,11 +45,13 @@ class {
   <else>
     Count is >= 10
   </else>
-  Something
-  <!--
-  <each (item, index in list)>
-  </each>
   -->
+  Something
+  <each (index, item in this.list)>
+    <div class="item" data-index={ index }>
+      { item }
+    </div>
+  </each>
 </div>
 `);
 console.log(result);

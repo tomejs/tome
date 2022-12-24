@@ -1,4 +1,4 @@
-import { KeyFunction, ListFunction, ListBlockCreationFunction, ListKeyedBlockMap, ListKeyedBlock } from "./types";
+import { KeyFunction, ListFunction, ListBlockCreationFunction, ListKeyedBlockMap } from "./types";
 
 export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, createFn: ListBlockCreationFunction) {
   const anchor = document.createComment('');
@@ -39,49 +39,53 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
     },
     update() {
       const list = listFn();
-      const indexByKey: { [key: string]: number } = {};
-      const newBlocks: { [key: string]: ListKeyedBlock } = {};
+      const indexByKey: { [key: string]: number } = {}
+      const newBlocks: ListKeyedBlockMap = {};
 
-      list.forEach((item, index) => indexByKey[keyFn(item, index).toString()] = index);
+      list.forEach((item, index) => indexByKey[keyFn(item, index)] = index);
 
       for(let i=list.length-1, j=cacheList.length-1; i >= 0 || j >= 0; i--) {
-        const newKey = keyFn(list[i], i);
-        const oldKey = keyFn(cacheList[j], j);
-        const _anchor: Comment | HTMLElement = i < list.length-1 ? newBlocks[keyFn(list[i+1], i+1)].nodes[0].root : anchor;
+        const newKey = list[i] ? keyFn(list[i], i) : '';
+        const oldKey = cacheList[j] ? keyFn(cacheList[j], j) : '';
+        const _anchor = i < list.length-1 ? newBlocks[keyFn(list[i+1], i+1)].nodes[0].root : anchor;
 
         if (newKey !== oldKey) {
-          if (i === -1) {
+          if(newKey === '') {
             blocks[oldKey].nodes.forEach(node => node.unmount());
             j--;
-          } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] === undefined) {
-            if(blocks[oldKey]) {
-              blocks[oldKey].nodes.forEach(node => node.unmount());
-              const { nodes, update } = createFn(list[i], i);
-              nodes.forEach(node => node.mount(parentNode, _anchor));
-              newBlocks[newKey] = { nodes, update, index: i };
-            }
-
-            j--;
-          } else if (cacheIndexByKey[newKey] === undefined || j === -1) {
+          } else if(oldKey === '') {
             const { nodes, update } = createFn(list[i], i);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
-          } else if (indexByKey[oldKey] === undefined) {
+          } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] !== undefined) {
+            const { nodes, update } = createFn(list[i], i);
+            nodes.forEach(node => node.mount(parentNode, _anchor));
+            newBlocks[newKey] = { nodes, update, index: i };
+          } else if(cacheIndexByKey[newKey] !== undefined && indexByKey[oldKey] === undefined) {
             blocks[oldKey].nodes.forEach(node => node.unmount());
+            blocks[oldKey].update(list[i], i);
             i++;
             j--;
-          } else if(indexByKey[oldKey] !== undefined && cacheIndexByKey[newKey] !== undefined) {
+          } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] === undefined) {
+            const { nodes, update } = createFn(list[i], i);
+            nodes.forEach(node => node.mount(parentNode, _anchor));
+            newBlocks[newKey] = { nodes, update, index: i };
+
+            blocks[oldKey].nodes.forEach(node => node.unmount());
+            j--;
+          } else if(cacheIndexByKey[newKey] !== undefined && indexByKey[oldKey] !== undefined) {
             blocks[newKey].nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = blocks[newKey];
             j--;
           }
         } else {
           newBlocks[newKey] = blocks[oldKey];
+          newBlocks[newKey].update(list[i], i);
           j--;
         }
       }
 
       blocks = { ...newBlocks };
     }
-  };
+  }
 }

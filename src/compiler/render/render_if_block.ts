@@ -4,17 +4,16 @@ import nodeName from "./node_name";
 import renderNode from "./render_node";
 
 export default function renderIfBlock (
-  _node: AnyNode, parentName: string, template: NodeList, index: number, isParentControlNode?: boolean
+  _node: AnyNode, parentName: string, template: NodeList, index: number, isParentControlNode?: boolean,
+  isParentEachNode?: boolean
 ) {
   let code = '';
   const node = _node as ControlNode;
-  const { tagName, children } = node;
+  const { tagName } = node;
   const name = nodeName(tagName);
 
   let next = index + 1;
   const conditionNodes = [node];
-
-  console.log(parentName, children, name);
 
   while (template[next]) {
     const { type } = template[next] as AnyNode;
@@ -66,7 +65,9 @@ export default function renderIfBlock (
     }
   });
 
-  code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update();\n});\n`;
+  if(deps.length > 0) {
+    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update();\n});\n`;
+  }
 
   if(isParentControlNode) {
     code += `children.push(${name});\n`;
@@ -74,7 +75,9 @@ export default function renderIfBlock (
     code += `${name}.mount(${parentName});\n`;
   }
 
-  console.log(JSON.stringify(conditionNodes, null, 2));
+  if(isParentEachNode) {
+    code += `updates.push(() => ${name}.update());\n`;
+  }
 
   return code;
 }

@@ -20,9 +20,11 @@ export type ListBlockCreationFunction = ((item: any, index: number) => ListBlock
 
 export type KeyFunction = ((item: any, index: number) => any);
 
+export type ListBlockUpdateFunction = ((item: any, index: number) => void);
+
 export interface ListKeyedBlock {
   nodes: Node[];
-  update(list: any[]): void;
+  update: ListBlockUpdateFunction;
   index: number;
 };
 

@@ -5,7 +5,8 @@ import renderNode from "./render_node";
 export default function renderHTMLNode(
   node: AnyNode,
   parentName: string,
-  isParentControlNode?: boolean
+  isParentControlNode?: boolean,
+  isParentEachNode?: boolean
 ) {
   let code = '';
   const { tagName, attributes, children } = node as HTMLNode;
@@ -13,7 +14,7 @@ export default function renderHTMLNode(
 
   code += `const ${name} = node('${tagName}', ${JSON.stringify(attributes)});\n`;
   children.forEach((child, index) => {
-    code += renderNode(child, name, children, index);
+    code += renderNode(child, name, children, index, isParentControlNode, isParentEachNode);
   });
 
   if(isParentControlNode) {
