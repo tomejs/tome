@@ -47,7 +47,7 @@ export default function renderHTMLNode(
   });
 
   children.forEach((child, index) => {
-    code += renderNode(child, name, children, index, isParentControlNode, isParentEachNode);
+    code += renderNode(child, name, children, index);
   });
 
   if(isParentControlNode) {
