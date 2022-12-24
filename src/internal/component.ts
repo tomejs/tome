@@ -17,7 +17,7 @@ export default class Component {
   }
 
   $$pub(name: string) {
-    this.$$subs[name].forEach(fn => fn());
+    this.$$subs[name] && this.$$subs[name].forEach(fn => fn());
   }
 
   created() {}
