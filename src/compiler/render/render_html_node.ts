@@ -1,7 +1,8 @@
 import { AnyNode, HTMLNode } from "../parser/utils/types";
 import nodeName from "./node_name";
 import renderNode from "./render_node";
-import getDeps from "./get_deps";
+import getDeps from "./utils/get_deps";
+import isMember from "./utils/is_member";
 
 export default function renderHTMLNode(
   node: AnyNode,
@@ -16,16 +17,31 @@ export default function renderHTMLNode(
   code += `const ${name} = node('${tagName}');\n`;
 
   attributes.forEach((attribute) => {
-    console.log(attribute);
     if(attribute.type === 'string' || attribute.type === 'boolean') {
-      code += `${name}.setAttribute('${attribute.name}', '${attribute.value}');\n`;
+      if(attribute.name === 'ref') {
+        code += `this.$refs[${attribute.value}] = ${name}.root;\n`;
+      } else {
+        code += `${name}.setAttribute('${attribute.name}', '${attribute.value}');\n`;
+      }
     } else if(attribute.type === 'expression') {
-      code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
-      const deps = getDeps(attribute.value as string);
-      if(deps.length > 0) {
-        code += `this.$$sub(${JSON.stringify(deps)}, () => {\n`;
+      if(attribute.name.startsWith('@')) {
+        const eventName = attribute.name.slice(1);
+        const isMemberExpression = isMember(attribute.value as string);
+        if(isMemberExpression) {
+          code += `${name}.on('${eventName}', ${attribute.value});\n`;
+        } else {
+          code += `${name}.on('${eventName}', ($event) => {\n`;
+          code += `${attribute.value};\n`;
+          code += `});\n`;
+        }
+      } else {
         code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
-        code += `});\n`;
+        const deps = getDeps(attribute.value as string);
+        if(deps.length > 0) {
+          code += `this.$$sub(${JSON.stringify(deps)}, () => {\n`;
+          code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
+          code += `});\n`;
+        }
       }
     }
   });

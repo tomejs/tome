@@ -4,54 +4,30 @@ import { compile } from "./compiler";
 console.log('Compiling ...');
 const result = compile(`
 class {
-  count = 0;
-  objCount = { deep: { nested: { value: 0 } } };
-  list = ['a', 'b', 'c'];
+  todos = [];
+  text = '';
 
-  get msg() {
-    return \`count: \$\{this.count\}\`;
-  }
-
-  elaborateMsg() {
-    return \`elaborate \$\{this.msg\}\`;
-  }
-
-  created() {
-    setInterval(() => {
-      this.count++;
-      this.objCount.value++;
-    }, 1000);
-
-    setTimeout(_ => {
-      this.list[0] = 'Apple';
-    }, 3000);
+  addTodo() {
+    this.todos.push({
+      text: this.text,
+      done: false
+    });
+    this.$refs.input.value = '';
   }
 }
 
-<div class="something" data-count={ this.count } disabled>
-  { this.msg }
-  { this.elaborateMsg() }
-  { this.objectCount.deep.nested.value }
-  { this.list[0] }
-  <!--
-  <if (this.count < 10)>
-    <if (this.count < 5)>
-      Count is < 5
-    </if>
-    <else>
-      Count is >= 5
-    </else>
-  </if>
-  <else>
-    Count is >= 10
-  </else>
-  -->
-  Something
-  <each (index, item in this.list)>
-    <div class="item" data-index={ index }>
-      { item }
-    </div>
-  </each>
+<div>
+  <h1>Todo List</h1>
+  <div>
+    <input type="text" value={this.todo} ref="input" @input={this.text = $event.target.value} />
+    <button @click={this.addTodo}>Add</button>
+  </div>
+  <ul>
+    <each(item in this.todos as key(item.text))>
+      <li>{item.text}</li>
+    </each>
+  </ul>
 </div>
+
 `);
 console.log(result);

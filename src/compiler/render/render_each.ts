@@ -1,7 +1,7 @@
 import { AnyNode, ControlNode } from '../parser/utils/types'
 import nodeName from './node_name';
 import renderNode from './render_node';
-import getDeps from './get_deps';
+import getDeps from './utils/get_deps';
 import parseEachExpression from '../utils/parse_each_expression';
 
 export default function renderEach(

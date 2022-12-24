@@ -38,3 +38,11 @@ export interface EachExpression {
   index: string;
   key: string;
 }
+
+export interface ASTProgram extends Node {
+  body: Node[];
+}
+
+export interface ExpressionStatement extends Node {
+  expression: Node;
+}

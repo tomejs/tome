@@ -1,6 +1,7 @@
 export default class Component {
   $$props: {[key: string]: any};
   $$subs: {[key: string]: (() => void)[]} = {};
+  $refs: {[key: string]: HTMLElement} = {};
   constructor(props: {[key: string]: any}) {
     this.$$props = props;
   }

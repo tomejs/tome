@@ -23,6 +23,9 @@ export default function node(name: string) {
     setAttribute(name: string, value: string) {
       root.setAttribute(name, '' + value);
     },
+    addEventListener(name: string, handler: () => void) {
+      root.addEventListener(name, handler);
+    },
     update() {
     }
   };
