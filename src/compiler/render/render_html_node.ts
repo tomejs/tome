@@ -28,9 +28,9 @@ export default function renderHTMLNode(
         const eventName = attribute.name.slice(1);
         const isMemberExpression = isMember(attribute.value as string);
         if(isMemberExpression) {
-          code += `${name}.on('${eventName}', ${attribute.value});\n`;
+          code += `${name}.addEventListener('${eventName}', ${attribute.value});\n`;
         } else {
-          code += `${name}.on('${eventName}', ($event) => {\n`;
+          code += `${name}.addEventListener('${eventName}', ($event) => {\n`;
           code += `${attribute.value};\n`;
           code += `});\n`;
         }
