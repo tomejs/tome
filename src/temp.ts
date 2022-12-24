@@ -24,7 +24,7 @@ class {
   </div>
   <ul>
     <each(item in this.todos as key(item.text))>
-      <li>{item.text}</li>
+      <li style={item ? '' : ''}>{item.text}</li>
     </each>
   </ul>
 </div>

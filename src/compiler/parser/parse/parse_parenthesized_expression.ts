@@ -13,11 +13,12 @@ export default function parseParenthesizedExpression(tokens: Tokenizer): string 
       contents += quote;
       while(tokens.peek() !== quote) {
         contents += tokens.shift();
-        if(tokens.peekString(`\\${quote}`)) {
+        if(tokens.peekString(`${quote}`)) {
           contents += tokens.shiftNum(2);
         }
       }
       contents += tokens.shift();
+      continue;
     } else if(tokens.peek() === ')') {
       paren--;
     }
