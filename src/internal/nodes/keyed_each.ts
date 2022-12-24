@@ -85,6 +85,8 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
         }
       }
 
+      cacheIndexByKey = indexByKey;
+      cacheList = [...list];
       blocks = { ...newBlocks };
     }
   }
