@@ -14,6 +14,7 @@ export interface HTMLTextInterpolationNode extends Node {
 export interface HTMLNodeAttribute {
   name: string;
   value: string | boolean;
+  type: string;
 }
 
 export interface HTMLNode {

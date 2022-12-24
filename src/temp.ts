@@ -28,7 +28,7 @@ class {
   }
 }
 
-<div class="something" data-count={ this.count }>
+<div class="something" data-count={ this.count } disabled>
   { this.msg }
   { this.elaborateMsg() }
   { this.objectCount.deep.nested.value }

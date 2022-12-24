@@ -5,7 +5,10 @@ export default function parseHTMLNodeAttribute(tokens: Tokenizer) {
   let name = '';
   let value: string | boolean = '';
   let type = '';
-  while(tokens.length() > 0 && tokens.peek() !== '=' && tokens.peek() !== ' ' && tokens.peek() !== '\n') {
+  while(
+    tokens.length() > 0 && tokens.peek() !== '=' && tokens.peek() !== ' '
+    && tokens.peek() !== '\n' && tokens.peek() !== '\t' && tokens.peek() !== '>' && tokens.peek() !== '/'
+  ) {
     name += tokens.shift();
   }
 
@@ -25,6 +28,7 @@ export default function parseHTMLNodeAttribute(tokens: Tokenizer) {
   } else if(!tokens.length()) {
     throw new Error('Unterminated html start tag');
   } else {
+    type = 'boolean';
     value = true;
   }
 

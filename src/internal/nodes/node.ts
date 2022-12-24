@@ -20,6 +20,9 @@ export default function node(name: string) {
     insertBefore(child: HTMLElement, anchor: HTMLElement) {
       root.insertBefore(child, anchor ? anchor : null);
     },
+    setAttribute(name: string, value: string) {
+      root.setAttribute(name, '' + value);
+    },
     update() {
     }
   };
