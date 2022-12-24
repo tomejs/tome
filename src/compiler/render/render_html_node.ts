@@ -42,6 +42,10 @@ export default function renderHTMLNode(
           code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
           code += `});\n`;
         }
+
+        if(isParentEachNode) {
+          code += `updates.push(() => ${name}.setAttribute('${attribute.name}', ${attribute.value}));\n`;
+        }
       }
     }
   });
