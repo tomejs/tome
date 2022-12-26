@@ -8,6 +8,7 @@ export default function renderComponent(
   let code = '';
   const { tagName, attributes } = node as HTMLNode;
   const name = nodeName(tagName);
+  let ref = '';
 
   code += 'try {\n';
   code += `const ${name} = new this.components.${tagName}();\n`;
@@ -15,9 +16,18 @@ export default function renderComponent(
   if (attributes.length > 0) {
     code += `${name}.setProps({\n`;
     attributes.forEach((attribute) => {
-      code += `${attribute.name}: ${attribute.value},\n`;
+      if (attribute.name === 'ref') {
+        ref = attribute.value as string;
+      } else {
+        code += `${attribute.name}: ${attribute.value},\n`;
+      }
     });
     code += `});\n`;
+
+    if (ref) {
+      code += `this.refs['${ref}'] = ${name};\n`;
+    }
+
     const deps = getDeps(attributes.map((attribute) => attribute.value).join(','));
 
     deps.forEach((dep) => {
