@@ -3,33 +3,43 @@ import { compile } from "./compiler";
 
 console.log('Compiling ...');
 const result = compile(`
-import './css/index.css';
 
 class {
-  todos = [];
+  todos = [
+    { text: 'Make tome', done: true },
+    { text: 'Make coffee', done: false },
+    { text: 'Make tea', done: false },
+  ];
   text = '';
 
   addTodo() {
-    this.todos.push({
-      text: this.text,
-      done: false
-    });
-    this.$refs.input.value = '';
+    this.todos.push({ text: this.text, done: false });
+    this.text = '';
+    this.$refs.text.value = '';
   }
 }
 
-<div>
-  <h1>Todo List</h1>
-  <div>
-    <input type="text" value={this.todo} ref="input" @input={this.text = $event.target.value} />
-    <button @click={this.addTodo}>Add</button>
+<!-- template -->
+
+<div class="flex items-center flex-col gap-4">
+  <h1 class="text-2xl font-bold">Todo Example</h1>
+  <div class="flex gap-4">
+    <input class="border border-gray-500 rounded px-2 py-1" type="text" ref="text" value={this.text} @input={this.text = $event.target.value} />
+    <button class="rounded px-2 py-1 bg-blue-500 text-white w-24" @click={this.addTodo}>Add</button>
   </div>
-  <ul>
-    <each(item in this.todos as key(item.text))>
-      <li style={todo.done ? 'text-decoration: line-through;' : ''}>{item.text}</li>
+  <ul class="flex flex-col justify-start w-96">
+    <each(todo in this.todos with key(todo.text))>
+      <li @click={todo.done = !todo.done} class={'rounded border px-4 py-3 m-2 cursor-pointer' + (todo.done ? ' line-through' : '')}>
+        <if(todo.done)>
+          ✅
+        </if>
+        <else>
+          🔆
+        </else>
+        <span>{todo.text}</span>
+      </li>
     </each>
   </ul>
 </div>
-
 `);
 console.log(result);

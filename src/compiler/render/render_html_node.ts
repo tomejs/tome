@@ -1,5 +1,5 @@
 import { AnyNode, HTMLNode } from "../parser/utils/types";
-import nodeName from "./node_name";
+import nodeName from "./utils/node_name";
 import renderNode from "./render_node";
 import getDeps from "./utils/get_deps";
 import isMember from "./utils/is_member";
@@ -51,7 +51,7 @@ export default function renderHTMLNode(
   });
 
   children.forEach((child, index) => {
-    code += renderNode(child, name, children, index);
+    code += renderNode(child, name, children, index, false, isParentEachNode);
   });
 
   if(isParentControlNode) {

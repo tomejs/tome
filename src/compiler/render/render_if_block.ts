@@ -1,6 +1,6 @@
 import { ControlNode, AnyNode, NodeList, HTMLTextNode } from "../parser/utils/types";
 import getDeps from "./utils/get_deps";
-import nodeName from "./node_name";
+import nodeName from "./utils/node_name";
 import renderNode from "./render_node";
 
 export default function renderIfBlock (
@@ -49,7 +49,7 @@ export default function renderIfBlock (
     let code = '';
 
     children.forEach((child, index) => {
-      code += renderNode(child, name, children, index, true);
+      code += renderNode(child, name, children, index, true, isParentEachNode);
     });
 
     return `() => {\nconst children = [];\n${code}\nreturn children;\n}`;
