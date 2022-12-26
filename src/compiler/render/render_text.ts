@@ -1,5 +1,5 @@
 import { AnyNode, HTMLTextNode } from '../parser/utils/types';
-import nodeName from './utils/node_name';
+import nodeName from '../utils/node_name';
 
 export default function renderText (node: AnyNode, parentName: string, isParentControlNode?: boolean) {
   let code = '';

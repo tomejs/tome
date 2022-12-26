@@ -1,7 +1,7 @@
 export default class Component {
   $$props: {[key: string]: any};
   $$subs: {[key: string]: (() => void)[]} = {};
-  $refs: {[key: string]: HTMLElement} = {};
+  refs: {[key: string]: HTMLElement} = {};
   constructor(props: {[key: string]: any}) {
     this.$$props = props;
   }
@@ -30,5 +30,17 @@ export default class Component {
   mount(target: HTMLElement) {
     this.render(target);
     this.mounted();
+  }
+
+  update() {
+    for(const key in this.$$subs) {
+      this.$$subs[key] && this.$$subs[key].forEach(fn => fn());
+    }
+  }
+
+  setProps(props: {[key: string]: any}) {
+    for(const key in props) {
+      this.$$props[key] = props[key];
+    }
   }
 }

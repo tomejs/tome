@@ -1,6 +1,6 @@
 import { ControlNode, AnyNode, NodeList, HTMLTextNode } from "../parser/utils/types";
-import getDeps from "./utils/get_deps";
-import nodeName from "./utils/node_name";
+import getDeps from "../utils/get_deps";
+import nodeName from "../utils/node_name";
 import renderNode from "./render_node";
 
 export default function renderIfBlock (

@@ -3,6 +3,7 @@ import { Node } from 'acorn';
 export interface PropertyDefinition extends Node {
   key: {
     name: string;
+    type: 'Identifier' | 'PrivateIdentifier';
   };
   value: Node;
 }

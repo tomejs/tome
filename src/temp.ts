@@ -3,8 +3,13 @@ import { compile } from "./compiler";
 
 console.log('Compiling ...');
 const result = compile(`
+import TodoItem from './TodoItem.tome';
 
 class {
+  #options = {};
+  #components = {
+    TodoItem,
+  };
   todos = [
     { text: 'Make tome', done: true },
     { text: 'Make coffee', done: false },
@@ -29,15 +34,7 @@ class {
   </div>
   <ul class="flex flex-col justify-start w-96">
     <each(todo in this.todos with key(todo.text))>
-      <li @click={todo.done = !todo.done} class={'rounded border px-4 py-3 m-2 cursor-pointer' + (todo.done ? ' line-through' : '')}>
-        <if(todo.done)>
-          ✅
-        </if>
-        <else>
-          🔆
-        </else>
-        <span>{todo.text}</span>
-      </li>
+      <TodoItem todo={todo} />
     </each>
   </ul>
 </div>

@@ -1,7 +1,7 @@
 import parse from './parser';
 import { Node } from 'acorn';
 import { simple as walkSimple } from 'acorn-walk';
-import { PropertyDefinition, MethodDefinition, MemberExpression, DependencyList, Initializers } from './types';
+import { PropertyDefinition, MethodDefinition, MemberExpression, DependencyList, Initializers } from './utils/types';
 import { generate } from 'astring';
 import { render } from './render';
 
@@ -9,8 +9,11 @@ export function compile (source: string): string {
   const { classAST, template, imports } = parse(source);
   let result = '';
   const reservedMethods: string[] = ['created', 'mounted', 'updated', 'destroyed'];
+  const reservedProps: string[] = ['refs'];
+  const privateProps: string[] = [];
   const stateProps: string[] = [];
   const statePropInitializers: Initializers = {};
+  const privatePropInitializers: Initializers = {};
   const deps: DependencyList = {};
   const getters = [];
   const setters = [];
@@ -26,8 +29,13 @@ export function compile (source: string): string {
   walkSimple(classAST, {
     PropertyDefinition (node: PropertyDefinition) {
       const name = node.key.name;
-      stateProps.push(name);
-      statePropInitializers[name] = node.value;
+      if(node.key.type === 'Identifier') {
+        stateProps.push(name);
+        statePropInitializers[name] = node.value;
+      } else if(node.key.type === 'PrivateIdentifier') {
+        privateProps.push(name);
+        privatePropInitializers[name] = node.value;
+      }
     },
     MethodDefinition (node: MethodDefinition) {
       const name = node.key.name;
@@ -37,7 +45,10 @@ export function compile (source: string): string {
         deps[name] = [];
         walkSimple(node.value, {
           MemberExpression (node: MemberExpression) {
-            if(node.object.type === 'ThisExpression' && node.property.type === 'Identifier') {
+            if(node.object.type === 'ThisExpression'
+              && node.property.type === 'Identifier'
+              && !reservedProps.includes(node.property.name)
+            ) {
               deps[name].push(node.property.name);
             }
           }
@@ -49,7 +60,10 @@ export function compile (source: string): string {
           deps[name] = [];
           walkSimple(node.value, {
             MemberExpression (node: MemberExpression) {
-              if(node.object.type === 'ThisExpression' && node.property.type === 'Identifier') {
+              if(node.object.type === 'ThisExpression'
+                && node.property.type === 'Identifier'
+                && !reservedProps.includes(node.property.name)
+              ) {
                 deps[name].push(node.property.name);
               }
             }
@@ -70,7 +84,17 @@ export function compile (source: string): string {
   result += 'super(props);\n';
 
   stateProps.forEach(prop => {
+    if(reservedProps.includes(prop)) {
+      throw new Error(`Cannot use reserved prop name:  + '${prop}'`);
+    }
     result += `this.$$${prop} = ${generate(statePropInitializers[prop])};\n`;
+  });
+
+  privateProps.forEach(prop => {
+    if(reservedProps.includes(prop)) {
+      throw new Error(`Cannot use reserved prop name:  + '${prop}'`);
+    }
+    result += `this.$$${prop} = ${generate(privatePropInitializers[prop])};\n`;
   });
 
   for(const key in deps) {
@@ -83,8 +107,11 @@ export function compile (source: string): string {
   result += '}\n\n';
 
   stateProps.forEach(prop => {
+    if(reservedProps.includes(prop)) {
+      return;
+    }
     result += `get ${prop}() {\n`;
-    result += `if(typeof this.$$${prop} === 'object') {`;
+    result += `if(typeof this.$$${prop} === 'object') {\n`;
     result += `return state(this.$$${prop}, () => this.$$pub('${prop}'));\n`;
     result += `}\n`;
     result += `return this.$$${prop};\n`;
@@ -92,6 +119,15 @@ export function compile (source: string): string {
     result += `set ${prop}(value) {\n`;
     result += `this.$$${prop} = value;\n`;
     result += `this.$$pub('${prop}');\n`;
+    result += '}\n\n';
+  });
+
+  privateProps.forEach(prop => {
+    result += `get ${prop}() {\n`;
+    result += `if(typeof this.$$${prop} === 'object') {\n`;
+    result += `return Object.freeze(this.$$${prop});\n`;
+    result += `}\n`;
+    result += `return this.$$${prop};\n`;
     result += '}\n\n';
   });
 

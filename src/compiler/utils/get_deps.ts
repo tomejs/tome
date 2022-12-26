@@ -1,6 +1,6 @@
 import { Parser } from 'acorn';
 import { simple as walkSimple } from 'acorn-walk';
-import { MemberExpression } from '../../types';
+import { MemberExpression } from './types';
 
 export default function getDeps(expression: string) {
   const deps: string[] = [];

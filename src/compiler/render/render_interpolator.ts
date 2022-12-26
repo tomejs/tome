@@ -1,6 +1,6 @@
 import { AnyNode, HTMLTextInterpolationNode } from "../parser/utils/types";
-import nodeName from "./utils/node_name";
-import getDeps from "./utils/get_deps";
+import nodeName from "../utils/node_name";
+import getDeps from "../utils/get_deps";
 
 
 export default function renderInterpolator(

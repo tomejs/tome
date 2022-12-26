@@ -14,7 +14,6 @@ export default function parse (source: string) {
   let imports: string[] = [];
 
   while(tokens.length() > 0) {
-    console.log(tokens.tokens);
     tokens.removeSpaces();
     if(tokens.peekString('class')) {
       if(classed) {

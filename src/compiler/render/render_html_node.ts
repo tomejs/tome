@@ -1,17 +1,17 @@
-import { AnyNode, HTMLNode } from "../parser/utils/types";
-import nodeName from "./utils/node_name";
+import { HTMLNode } from "../parser/utils/types";
+import nodeName from "../utils/node_name";
 import renderNode from "./render_node";
-import getDeps from "./utils/get_deps";
-import isMember from "./utils/is_member";
+import getDeps from "../utils/get_deps";
+import isMember from "../utils/is_member";
 
 export default function renderHTMLNode(
-  node: AnyNode,
+  node: HTMLNode,
   parentName: string,
   isParentControlNode?: boolean,
   isParentEachNode?: boolean
 ) {
   let code = '';
-  const { tagName, attributes, children } = node as HTMLNode;
+  const { tagName, attributes, children } = node;
   const name = nodeName(tagName);
 
   code += `const ${name} = node('${tagName}');\n`;

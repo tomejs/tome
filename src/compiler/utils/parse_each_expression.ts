@@ -1,4 +1,4 @@
-import { EachExpression } from "../types";
+import { EachExpression } from "./types";
 import Tokenizer from "../parser/tokenizer";
 import parseParenthesizedExpression from "../parser/parse/parse_parenthesized_expression";
 

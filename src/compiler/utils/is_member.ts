@@ -1,5 +1,5 @@
 import { Parser } from 'acorn';
-import { MemberExpression, ASTProgram, ExpressionStatement } from '../../types';
+import { MemberExpression, ASTProgram, ExpressionStatement } from './types';
 
 
 
