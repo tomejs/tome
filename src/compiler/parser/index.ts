@@ -11,8 +11,10 @@ export default function parse (source: string) {
   let classString: string = '';
   let classed: boolean = false;
   let template:NodeList = [];
+  let imports: string[] = [];
 
   while(tokens.length() > 0) {
+    console.log(tokens.tokens);
     tokens.removeSpaces();
     if(tokens.peekString('class')) {
       if(classed) {
@@ -22,10 +24,25 @@ export default function parse (source: string) {
       tokens.removeSpaces();
 
       if(tokens.peek() === '{') {
-        classString = `export default class {\n${parseJSBlock(tokens)}\n}`;
+        classString += `export default class {\n${parseJSBlock(tokens)}\n}`;
         classed = true;
       } else {
         throw new Error('Unexpected token, expected "{"');
+      }
+    } else if(tokens.peekString('import')) {
+      let importString = '';
+      while(tokens.length() > 0 && tokens.peek() !== ';' && tokens.peek() !== '\n') {
+        importString += tokens.shift();
+      }
+
+      tokens.shift();
+
+      importString += ';\n';
+
+      imports.push(importString);
+
+      if(tokens.length() === 0) {
+        throw new Error('Unexpected end of file');
       }
     } else if(tokens.peek() === '<') {
       template = parseTemplate(tokens);
@@ -40,5 +57,5 @@ export default function parse (source: string) {
 
   const classAST = Parser.extend(acornClassFields).parse(classString, { ecmaVersion: 2020, sourceType: 'module' });
 
-  return { classAST, template };
+  return { classAST, template, imports };
 }

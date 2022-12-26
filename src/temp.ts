@@ -3,6 +3,8 @@ import { compile } from "./compiler";
 
 console.log('Compiling ...');
 const result = compile(`
+import './css/index.css';
+
 class {
   todos = [];
   text = '';

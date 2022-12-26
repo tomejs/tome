@@ -6,7 +6,7 @@ import { generate } from 'astring';
 import { render } from './render';
 
 export function compile (source: string): string {
-  const { classAST, template } = parse(source);
+  const { classAST, template, imports } = parse(source);
   let result = '';
   const reservedMethods: string[] = ['created', 'mounted', 'updated', 'destroyed'];
   const stateProps: string[] = [];
@@ -18,6 +18,10 @@ export function compile (source: string): string {
   const getterNodes: Node[] = [];
   const setterNodes: Node[] = [];
   const methodNodes: Node[] = [];
+
+  imports.forEach((imp) => {
+    result += imp;
+  });
 
   walkSimple(classAST, {
     PropertyDefinition (node: PropertyDefinition) {
