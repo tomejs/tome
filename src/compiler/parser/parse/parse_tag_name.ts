@@ -7,6 +7,7 @@ export default function parseTagName(tokens: Tokenizer): string {
     && tokens.peek() !== '\n'
     && tokens.peek() !== '>'
     && tokens.peek() !== '('
+    && tokens.peek() !== '/'
   ) {
     tagName += tokens.shift();
   }

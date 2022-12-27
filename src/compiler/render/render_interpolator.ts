@@ -20,7 +20,11 @@ export default function renderInterpolator(
   if(isParentControlNode) {
     code += `children.push(${name});\n`;
   } else {
-    code += `${name}.mount(${parentName});\n`;
+    if(parentName === 'root') {
+      code += `${name}.mount(${parentName}, anchor);\n`;
+    } else {
+      code += `${name}.mount(${parentName});\n`;
+    }
   }
 
   if(isParentEachNode) {

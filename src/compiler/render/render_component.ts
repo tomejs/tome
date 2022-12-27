@@ -2,12 +2,13 @@ import { AnyNode, HTMLNode } from '../parser/utils/types';
 import nodeName from '../utils/node_name';
 import getDeps from '../utils/get_deps';
 import isMember from '../utils/is_member';
+import renderNode from './render_node';
 
 export default function renderComponent(
   node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean
 ) {
   let code = '';
-  const { tagName, attributes } = node as HTMLNode;
+  const { tagName, attributes, children } = node as HTMLNode;
   const name = nodeName(tagName);
   let ref = '';
 
@@ -51,6 +52,10 @@ export default function renderComponent(
       code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');});\n`;
     });
   }
+
+  children.forEach((child, index) => {
+    code += renderNode(child, name, children, index, false, isParentEachNode);
+  });
 
   if (isParentControlNode) {
     code += `children.push(${name});\n`;
