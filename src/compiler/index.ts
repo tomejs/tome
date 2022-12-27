@@ -9,7 +9,7 @@ export function compile (source: string): string {
   const { classAST, template, imports } = parse(source);
   let result = '';
   const reservedMethods: string[] = ['created', 'mounted', 'updated', 'destroyed'];
-  const reservedProps: string[] = ['refs'];
+  const reservedProps: string[] = ['$refs'];
   const privateProps: string[] = [];
   const stateProps: string[] = [];
   const statePropInitializers: Initializers = {};
@@ -76,7 +76,7 @@ export function compile (source: string): string {
     }
   });
 
-  result += 'import { Component, node, text, state, ifblock, each, keyedEach } from "tomejs/internal";\n\n';
+  result += 'import { Component, node, text, state, immutable, ifblock, each, keyedEach } from "tomejs/internal";\n\n';
 
   result += 'export default class extends Component {\n';
 
@@ -125,7 +125,9 @@ export function compile (source: string): string {
   privateProps.forEach(prop => {
     result += `get ${prop}() {\n`;
     result += `if(typeof this.$$${prop} === 'object') {\n`;
-    result += `return Object.freeze(this.$$${prop});\n`;
+    result += `return immutable(this.$$${prop}, () => {\n`;
+    result += `throw new Error('Cannot mutate the component property \\'${prop}\\'');\n`;
+    result += '});\n';
     result += `}\n`;
     result += `return this.$$${prop};\n`;
     result += '}\n\n';

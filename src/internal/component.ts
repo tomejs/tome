@@ -1,7 +1,7 @@
 export default class Component {
   $$props: {[key: string]: any};
   $$subs: {[key: string]: (() => void)[]} = {};
-  refs: {[key: string]: HTMLElement} = {};
+  $refs: {[key: string]: HTMLElement} = {};
   constructor(props: {[key: string]: any}) {
     this.$$props = props;
   }
@@ -42,5 +42,13 @@ export default class Component {
     for(const key in props) {
       this.$$props[key] = props[key];
     }
+  }
+
+  addEventListener(event: string, fn: () => void) {
+    this.$$sub(`$$${event}`, fn);
+  }
+
+  $emit(event: string, ...args: any[]) {
+    this.$$pub(`$$${event}`, ...args);
   }
 }

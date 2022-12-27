@@ -1,6 +1,7 @@
 import { AnyNode, HTMLNode } from '../parser/utils/types';
 import nodeName from '../utils/node_name';
 import getDeps from '../utils/get_deps';
+import isMember from '../utils/is_member';
 
 export default function renderComponent(
   node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean
@@ -18,14 +19,30 @@ export default function renderComponent(
     attributes.forEach((attribute) => {
       if (attribute.name === 'ref') {
         ref = attribute.value as string;
-      } else {
-        code += `${attribute.name}: ${attribute.value},\n`;
+      } else if(!attribute.name.startsWith('@')) {
+        if(attribute.type === 'expression' || attribute.type === 'boolean') {
+          code += `${attribute.name}: ${attribute.value},\n`;
+        } else {
+          code += `${attribute.name}: '${attribute.value}',\n`;
+        }
       }
     });
     code += `});\n`;
 
+    attributes.filter((attribute) => attribute.name.startsWith('@')).forEach((attribute) => {
+      const eventName = attribute.name.slice(1);
+      const isMemberExpression = isMember(attribute.value as string);
+      if(isMemberExpression) {
+        code += `${name}.addEventListener('${eventName}', ${attribute.value}.bind(this));\n`;
+      } else {
+        code += `${name}.addEventListener('${eventName}', ($event) => {\n`;
+        code += `${attribute.value};\n`;
+        code += `});\n`;
+      }
+    });
+
     if (ref) {
-      code += `this.refs['${ref}'] = ${name};\n`;
+      code += `this.$refs['${ref}'] = ${name};\n`;
     }
 
     const deps = getDeps(attributes.map((attribute) => attribute.value).join(','));

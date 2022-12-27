@@ -19,7 +19,7 @@ export default function renderHTMLNode(
   attributes.forEach((attribute) => {
     if(attribute.type === 'string' || attribute.type === 'boolean') {
       if(attribute.name === 'ref') {
-        code += `this.refs['${attribute.value}'] = ${name}.root;\n`;
+        code += `this.$refs['${attribute.value}'] = ${name}.root;\n`;
       } else {
         code += `${name}.setAttribute('${attribute.name}', '${attribute.value}');\n`;
       }

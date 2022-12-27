@@ -34,7 +34,7 @@ class {
   </div>
   <ul class="flex flex-col justify-start w-96">
     <each(todo in this.todos with key(todo.text))>
-      <TodoItem todo={todo} />
+      <TodoItem interactive class="todo" todo={todo} @click={ this.toggleTodo }/>
     </each>
   </ul>
 </div>

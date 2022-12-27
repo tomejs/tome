@@ -4,6 +4,7 @@ import ifblock from './nodes/if_block';
 import each from './nodes/each';
 import keyedEach from './nodes/keyed_each';
 import state from './state';
+import immutable from './immutable';
 import Component from './component';
 
 export {
@@ -13,5 +14,6 @@ export {
   each,
   keyedEach,
   state,
+  immutable,
   Component
 };
