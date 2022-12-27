@@ -12,7 +12,7 @@ export default function renderComponent(
   let ref = '';
 
   code += 'try {\n';
-  code += `const ${name} = new this.components.${tagName}();\n`;
+  code += `const ${name} = new this.$$components.${tagName}();\n`;
 
   if (attributes.length > 0) {
     code += `${name}.setProps({\n`;
