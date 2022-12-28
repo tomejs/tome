@@ -29,3 +29,7 @@ export interface ListKeyedBlock {
 };
 
 export type ListKeyedBlockMap = { [key: string]: ListKeyedBlock };
+
+export interface Slot extends Node {
+  setCreationFn(fn: NodeCreationFunction): void;
+}

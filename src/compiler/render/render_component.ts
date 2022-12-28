@@ -53,9 +53,14 @@ export default function renderComponent(
     });
   }
 
+  code += `const defaultSlotFn = () => {\n`;
+  code += `const children = [];\n`;
   children.forEach((child, index) => {
-    code += renderNode(child, name, children, index, false, isParentEachNode);
+    code += renderNode(child, name, children, index, true, isParentEachNode);
   });
+  code += `return children;\n`;
+  code += '};\n';
+  code += `${name}.setSlotFn('$default', defaultSlotFn);\n`;
 
   if (isParentControlNode) {
     code += `children.push(${name});\n`;

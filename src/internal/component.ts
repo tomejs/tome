@@ -1,7 +1,10 @@
+import { Slot } from './nodes/types';
 export default class Component {
   $$props: {[key: string]: any};
   $$subs: {[key: string]: ((data: any) => void)[]} = {};
   $refs: {[key: string]: HTMLElement} = {};
+  $$slots: {[key: string]: Slot} = {};
+  $$slotFns: {[key: string]: () => any[]} = {};
   constructor(props: {[key: string]: any}) {
     this.$$props = props;
   }
@@ -52,5 +55,10 @@ export default class Component {
 
   $emit(event: string, ...args: any[]) {
     this.$$pub.apply(this, [`$$${event}`, ...args]);
+  }
+
+  setSlotFn(name: string, fn: () => any[]) {
+    this.$$slotFns[name] = fn;
+    this.$$slots[name].setCreationFn(fn);
   }
 }

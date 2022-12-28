@@ -11,7 +11,9 @@ class {
   <ChildComponent>
     <div>Something to be added to the slot</div>
   </ChildComponent>
-  <slot/>
+  <slot>
+    There is a slot here...
+  </slot>
 </div>
 
 `);
