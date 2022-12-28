@@ -23,7 +23,7 @@ export default function renderSlot(node: HTMLNode, parentName: string, isParentC
   code += `});\n`;
 
   code += `if(this.$$slotFns['${name}']) {\n`;
-  code += `${name}.setSlotFn(this.$$slotFns['${name}']);\n`;
+  code += `${name}.setCreationFn(this.$$slotFns['${name}']);\n`;
   code += `}\n`;
 
   code += `this.$$slots['${name}'] = ${name};\n`
