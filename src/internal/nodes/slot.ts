@@ -27,6 +27,7 @@ export default function slot(name: string, initialCreationFn?: NodeCreationFunct
     setCreationFn(fn: () => Node[]) {
       creationFn = fn;
       if(creationFn) {
+        nodes.forEach(node => node.unmount());
         nodes = creationFn();
         nodes.forEach(node => node.mount(parentNode, anchor));
       }

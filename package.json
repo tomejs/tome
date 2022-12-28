@@ -1,6 +1,6 @@
 {
   "name": "tomejs",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "A declarative Javascript library for building user interfaces - Easy to write, fast to run and elegant to use.",
   "scripts": {
     "temp": "npm run build && node dist/temp.js",

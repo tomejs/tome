@@ -6,6 +6,7 @@ import keyedEach from './nodes/keyed_each';
 import state from './state';
 import immutable from './immutable';
 import Component from './component';
+import slot from './nodes/slot';
 
 export {
   node,
@@ -15,5 +16,6 @@ export {
   keyedEach,
   state,
   immutable,
-  Component
+  Component,
+  slot
 };
