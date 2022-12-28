@@ -76,7 +76,7 @@ export function compile (source: string): string {
     }
   });
 
-  result += 'import { Component, node, text, state, immutable, ifblock, each, keyedEach } from "tomejs/internal";\n\n';
+  result += 'import { Component, node, text, state, immutable, ifblock, each, keyedEach, slot } from "tomejs/internal";\n\n';
 
   result += 'export default class extends Component {\n';
 

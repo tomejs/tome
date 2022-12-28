@@ -59,6 +59,6 @@ export default class Component {
 
   setSlotFn(name: string, fn: () => any[]) {
     this.$$slotFns[name] = fn;
-    this.$$slots[name].setCreationFn(fn);
+    //this.$$slots[name].setCreationFn(fn);
   }
 }
