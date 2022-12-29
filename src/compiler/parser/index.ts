@@ -50,7 +50,7 @@ export default function parse (source: string) {
 
   const lastNode = template[template.length - 1];
 
-  if(lastNode.type === 'text' && "value" in lastNode && lastNode.value.replace(/\s+/, '') === '') {
+  if(lastNode && lastNode.type === 'text' && "value" in lastNode && lastNode.value.replace(/\s+/, '') === '') {
     template.pop();
   }
 
