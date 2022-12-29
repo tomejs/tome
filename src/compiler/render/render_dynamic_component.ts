@@ -15,7 +15,7 @@ export default function renderDynamicComponent(
 
   code += 'try {\n';
   code += `let ${name} = null;\n`;
-  code += `function ${name}Create() {\n`;
+  code += `const ${name}Create = () => {\n`;
   code += `${name} = new this.$$components[${componentName}](this.$ctx);\n`;
   if (attributes.length > 0) {
     code += `${name}.setProps({\n`;
