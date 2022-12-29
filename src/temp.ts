@@ -4,25 +4,30 @@ import { compile } from "./compiler";
 console.log('Compiling ...');
 const result = compile(`
 class {
-  todos = [
-    { id: 1, text: 'Make tome', done: true },
-    { id: 2, text: 'Make coffee', done: false },
-    { id: 3, text: 'Make tea', done: false },
-  ];
+  $mapStore = ['todos'];
+  $mapState = {
+    'todos': ['todoList']
+  };
+  $mapGetters = {
+    'todos': ['todoInit']
+  };
+  $mapMethods = {
+    'todos': ['addTodo']
+  };
+  name = 'World';
 
-  addTodo() {
-    this.todos.push({ id: this.todos.length + 1, text: this.text, done: false });
-    this.text = '';
+  get greeting() {
+    return this.getMsg();
   }
 
-  getTodoById(id) {
-    return this.todos.find((todo) => todo.id === id);
-  }
-
-  toggleTodo(id) {
-    const todo = this.getTodoById(id);
-    todo.done = !todo.done;
+  getMsg() {
+    return 'Hello ' + this.name;
   }
 }
+
+<div>
+  <div>{ this.addTodo() }</div>
+</div>
+
 `);
 console.log(result);

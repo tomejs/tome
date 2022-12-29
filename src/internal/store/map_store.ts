@@ -12,18 +12,18 @@ export default function mapStore(component: Component, stores: string[]) {
     }
 
     $store[store].$$stateProps.forEach((prop) => {
-      component[`$$${prop}`] = $store[store][prop];
       $store[store].$$sub(prop, (data) => {
         component[`$${prop}`] = $store[store][prop];
         component.$$pub(prop, data);
-        Object.defineProperty(component, prop, {
-          get() {
-            return component[`$$${prop}`];
-          },
-          set() {
-            throw new Error(`Cannot set store property ${prop} directly. Use a setter or call store methods instead.`);
-          },
-        });
+      });
+      component[`$$${prop}`] = $store[store][prop];
+      Object.defineProperty(component, prop, {
+        get() {
+          return component[`$$${prop}`];
+        },
+        set() {
+          throw new Error(`Cannot set store property ${prop} directly. Use a setter or call store methods instead.`);
+        },
       });
     });
 
@@ -54,6 +54,5 @@ export default function mapStore(component: Component, stores: string[]) {
         return $store[store][method].apply($store[store], args);
       };
     });
-
   });
 }

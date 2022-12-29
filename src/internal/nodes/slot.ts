@@ -29,7 +29,9 @@ export default function slot(name: string, initialCreationFn?: NodeCreationFunct
       if(creationFn) {
         nodes.forEach(node => node.unmount());
         nodes = creationFn();
-        nodes.forEach(node => node.mount(parentNode, anchor));
+        if(parentNode) {
+          nodes.forEach(node => node.mount(parentNode, anchor));
+        }
       }
     }
   };
