@@ -69,7 +69,7 @@ export default function renderDynamicComponent(
 
   const deps = getDeps(componentName);
 
-  code += `this.$$sub('${JSON.stringify(deps)}', () => {\n`;
+  code += `this.$$sub(${JSON.stringify(deps)}, () => {\n`;
   code += `${name}.unmount();\n`;
   code += `${name}Create();\n`;
   code += `});\n`;
