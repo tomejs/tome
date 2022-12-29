@@ -1,7 +1,7 @@
 import { TomeApplicationOptions, Component } from './types';
 
 export default function Tome (options: TomeApplicationOptions) {
-  const { root, component } = options;
-  const componentInstance: Component = new component();
+  const { root, component, store } = options;
+  const componentInstance: Component = new component({ $store: store });
   componentInstance.mount(root);
 }

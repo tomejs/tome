@@ -1,12 +1,23 @@
 import { Slot } from './nodes/types';
+
 export default class Component {
   $$props: {[key: string]: any};
   $$subs: {[key: string]: ((data: any) => void)[]} = {};
   $refs: {[key: string]: HTMLElement} = {};
   $$slots: {[key: string]: Slot} = {};
   $$slotFns: {[key: string]: () => any[]} = {};
-  constructor(props: {[key: string]: any}) {
-    this.$$props = props;
+  $store: {[key: string]: Component};
+  $ctx: {[key: string]: any};
+  $$stateProps: string[];
+  $$privateProps: string[];
+  $$getters: string[];
+  $$setters: string[];
+  $$methods: string[];
+  [key: string]: any;
+
+  constructor(ctx: {[key: string]: any}) {
+    this.$ctx = ctx;
+    this.$store = ctx.$store;
   }
 
   $$sub(name: string | string[], fn: (data: any) => void) {

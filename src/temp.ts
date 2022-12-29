@@ -4,16 +4,29 @@ import { compile } from "./compiler";
 console.log('Compiling ...');
 const result = compile(`
 class {
+  $mapStore = ['todos'];
+  $mapState = {
+    'todos': ['todoList']
+  };
+  $mapGetters = {
+    'todos': ['todoInit']
+  };
+  $mapMethods = {
+    'todos': ['addTodo']
+  };
+  name = 'World';
 
+  get greeting() {
+    return this.getMsg();
+  }
+
+  getMsg() {
+    return 'Hello ' + this.name;
+  }
 }
 
 <div>
-  <ChildComponent>
-    <div>Something to be added to the slot</div>
-  </ChildComponent>
-  <slot>
-    There is a slot here...
-  </slot>
+  <div>{ this.addTodo() }</div>
 </div>
 
 `);

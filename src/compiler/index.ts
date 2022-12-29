@@ -9,18 +9,24 @@ export function compile (source: string): string {
   const { classAST, template, imports } = parse(source);
   let result = '';
   const reservedMethods: string[] = ['created', 'mounted', 'updated', 'destroyed'];
-  const reservedProps: string[] = ['$refs'];
+  const reservedProps: string[] = ['$refs', '$store'];
+  const mapProps: string[] = ['$mapStore', '$mapState', '$mapGetters', '$mapSetters', '$mapMethods'];
   const privateProps: string[] = [];
   const stateProps: string[] = [];
   const statePropInitializers: Initializers = {};
   const privatePropInitializers: Initializers = {};
   const deps: DependencyList = {};
-  const getters = [];
-  const setters = [];
-  const methods = [];
+  const getters: string[] = [];
+  const setters: string[] = [];
+  const methods: string[] = [];
   const getterNodes: Node[] = [];
   const setterNodes: Node[] = [];
   const methodNodes: Node[] = [];
+  let mapStore: string = '';
+  let mapState: string = '';
+  let mapGetters: string = '';
+  let mapSetters: string = '';
+  let mapMethods: string = '';
 
   imports.forEach((imp) => {
     result += imp;
@@ -30,8 +36,24 @@ export function compile (source: string): string {
     PropertyDefinition (node: PropertyDefinition) {
       const name = node.key.name;
       if(node.key.type === 'Identifier') {
-        stateProps.push(name);
-        statePropInitializers[name] = node.value;
+        if(mapProps.includes(name)) {
+          if(name === '$mapStore') {
+            mapStore = generate(node.value);
+          } else if(name === '$mapState') {
+            mapState = generate(node.value);
+          } else if(name === '$mapGetters') {
+            mapGetters = generate(node.value);
+          } else if(name === '$mapSetters') {
+            mapSetters = generate(node.value);
+          } else if(name === '$mapMethods') {
+            mapMethods = generate(node.value);
+          }
+        } else if(reservedProps.includes(name)) {
+          throw new Error(`Cannot use reserved prop name:  + '${name}'`);
+        } else {
+          stateProps.push(name);
+          statePropInitializers[name] = node.value;
+        }
       } else if(node.key.type === 'PrivateIdentifier') {
         privateProps.push(name);
         privatePropInitializers[name] = node.value;
@@ -76,12 +98,24 @@ export function compile (source: string): string {
     }
   });
 
-  result += 'import { Component, node, text, state, immutable, ifblock, each, keyedEach, slot } from "tomejs/internal";\n\n';
+  result += 'import { Component, node, text, state, immutable, ifblock, each, keyedEach, slot, mapStore, mapState, mapGetters, mapSetters, mapMethods } from "tomejs/internal";\n\n';
 
   result += 'export default class extends Component {\n';
 
   result += 'constructor(props) {\n';
   result += 'super(props);\n';
+
+  result += `mapStore(this, ${mapStore});\n`;
+  result += `mapState(this, ${mapState});\n`;
+  result += `mapGetters(this, ${mapGetters});\n`;
+  result += `mapSetters(this, ${mapSetters});\n`;
+  result += `mapMethods(this, ${mapMethods});\n`;
+
+  result += `this.$$stateProps = ${JSON.stringify(stateProps)};\n`;
+  result += `this.$$privateProps = ${JSON.stringify(privateProps)};\n`;
+  result += `this.$$methods = ${JSON.stringify(methods)};\n`;
+  result += `this.$$getters = ${JSON.stringify(getters)};\n`;
+  result += `this.$$setters = ${JSON.stringify(setters)};\n`;
 
   stateProps.forEach(prop => {
     if(reservedProps.includes(prop)) {

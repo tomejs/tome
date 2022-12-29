@@ -7,6 +7,11 @@ import state from './state';
 import immutable from './immutable';
 import Component from './component';
 import slot from './nodes/slot';
+import mapStore from './store/map_store';
+import mapState from './store/map_state';
+import mapGetters from './store/map_getters';
+import mapSetters from './store/map_setters';
+import mapMethods from './store/map_methods';
 
 export {
   node,
@@ -17,5 +22,10 @@ export {
   state,
   immutable,
   Component,
-  slot
+  slot,
+  mapStore,
+  mapState,
+  mapGetters,
+  mapSetters,
+  mapMethods
 };
