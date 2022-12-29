@@ -1,20 +1,22 @@
-import { AnyNode, HTMLNode } from '../parser/utils/types';
+import { AnyNode, HTMLNode, HTMLNodeAttribute } from '../parser/utils/types';
 import nodeName from '../utils/node_name';
 import getDeps from '../utils/get_deps';
 import isMember from '../utils/is_member';
-import renderNode from './render_node';
 
-export default function renderComponent(
+export default function renderDynamicComponent(
   node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean
 ) {
   let code = '';
-  const { tagName, attributes, children } = node as HTMLNode;
-  const name = nodeName(tagName);
+  let { attributes } = node as HTMLNode;
+  const name = nodeName('dynamicComponent');
   let ref = '';
+  let componentName = attributes.find((attribute: HTMLNodeAttribute) => attribute.name === 'name')?.value as string;
+  attributes = attributes.filter((attribute: HTMLNodeAttribute) => attribute.name !== 'name');
 
   code += 'try {\n';
-  code += `const ${name} = new this.$$components.${tagName}(this.$ctx);\n`;
-
+  code += `let ${name} = null;\n`;
+  code += `function ${name}Create() {\n`;
+  code += `${name} = new this.$$components[${componentName}](this.$ctx);\n`;
   if (attributes.length > 0) {
     code += `${name}.setProps({\n`;
     attributes.forEach((attribute) => {
@@ -52,18 +54,6 @@ export default function renderComponent(
       code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');});\n`;
     });
   }
-
-  if(children.length > 0) {
-    code += `const defaultSlotFn = () => {\n`;
-    code += `const children = [];\n`;
-    children.forEach((child, index) => {
-      code += renderNode(child, name, children, index, true, isParentEachNode);
-    });
-    code += `return children;\n`;
-    code += '};\n';
-    code += `${name}.setSlotFn('$default', defaultSlotFn);\n`;
-  }
-
   if (isParentControlNode) {
     code += `children.push(${name});\n`;
   } else {
@@ -74,9 +64,18 @@ export default function renderComponent(
     code += `updates.push(() => ${name}.update());\n`;
   }
 
+  code += `}\n`;
+  code += `${name}Create();\n`;
+
+  const deps = getDeps(componentName);
+
+  code += `this.$$sub('${JSON.stringify(deps)}', () => {\n`;
+  code += `${name}.unmount();\n`;
+  code += `${name}Create();\n`;
+  code += `});\n`;
 
   code += '} catch(e) {\n';
-  code += `throw new Error('Component \\'${tagName}\\' not found');\n`;
+  code += `throw new Error('Component \\'${componentName}\\' not found');\n`;
   code += '}\n';
 
   return code;

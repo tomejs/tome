@@ -74,6 +74,7 @@ export default function renderIfBlock (
   } else {
     if(parentName === 'root') {
       code += `${name}.mount(${parentName}, anchor);\n`;
+      code += `this.$$nodes.push(${name});\n`;
     } else {
       code += `${name}.mount(${parentName});\n`;
     }

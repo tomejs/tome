@@ -1,4 +1,4 @@
-import { Slot } from './nodes/types';
+import { Slot, Node } from './nodes/types';
 
 export default class Component {
   $$props: {[key: string]: any};
@@ -13,6 +13,7 @@ export default class Component {
   $$getters: string[];
   $$setters: string[];
   $$methods: string[];
+  $$nodes: Node[] = [];
   [key: string]: any;
 
   constructor(ctx: {[key: string]: any}) {
@@ -41,7 +42,7 @@ export default class Component {
   mounted() {}
   updated() {}
   destroyed() {}
-  render(target: HTMLElement) {}
+  render(target: HTMLElement) {target;}
 
   mount(target: HTMLElement) {
     this.render(target);
@@ -72,6 +73,11 @@ export default class Component {
 
   setSlotFn(name: string, fn: () => any[]) {
     this.$$slotFns[name] = fn;
-    //this.$$slots[name].setCreationFn(fn);
+  }
+
+  unmount() {
+    this.nodes.forEach((node: Node) => {
+      node.unmount();
+    });
   }
 }

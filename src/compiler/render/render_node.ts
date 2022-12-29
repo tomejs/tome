@@ -7,6 +7,7 @@ import renderEach from './render_each';
 import isHTMLNode from '../utils/is_html_node';
 import renderComponent from './render_component';
 import renderSlot from './render_slot';
+import renderDynamicComponent from './render_dynamic_component';
 
 export default function renderNode(
   node: AnyNode, parentName: string, template: NodeList, index: number, isParentControlNode?: boolean,
@@ -30,6 +31,8 @@ export default function renderNode(
         throw new Error('Cannot use <slot> inside <each>');
       }
       code += renderSlot(node as HTMLNode, parentName, isParentControlNode);
+    } else if (tagName === 'component') {
+      code += renderDynamicComponent(node as HTMLNode, parentName, isParentControlNode, isParentEachNode);
     } else if(!isHTMLNode(tagName)) {
       code += renderComponent(node as HTMLNode, parentName, isParentControlNode, isParentEachNode);
     } else {
