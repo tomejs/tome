@@ -76,7 +76,7 @@ export default class Component {
   }
 
   unmount() {
-    this.nodes.forEach((node: Node) => {
+    this.$$nodes.forEach((node: Node) => {
       node.unmount();
     });
   }
