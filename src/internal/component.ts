@@ -17,7 +17,9 @@ export default class Component {
 
   constructor(ctx: {[key: string]: any}) {
     this.$ctx = ctx;
-    this.$store = ctx.$store;
+    for(const key in ctx) {
+      this[key] = ctx[key];
+    }
   }
 
   $$sub(name: string | string[], fn: (data: any) => void) {

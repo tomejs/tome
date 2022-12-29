@@ -105,11 +105,24 @@ export function compile (source: string): string {
   result += 'constructor(props) {\n';
   result += 'super(props);\n';
 
-  result += `mapStore(this, ${mapStore});\n`;
-  result += `mapState(this, ${mapState});\n`;
-  result += `mapGetters(this, ${mapGetters});\n`;
-  result += `mapSetters(this, ${mapSetters});\n`;
-  result += `mapMethods(this, ${mapMethods});\n`;
+  if(mapStore) {
+    result += `mapStore(this, ${mapStore});\n`;
+  }
+  if(mapState) {
+    result += `mapState(this, ${mapState});\n`;
+  }
+
+  if(mapGetters) {
+    result += `mapGetters(this, ${mapGetters});\n`;
+  }
+
+  if(mapSetters) {
+    result += `mapSetters(this, ${mapSetters});\n`;
+  }
+
+  if(mapMethods) {
+    result += `mapMethods(this, ${mapMethods});\n`;
+  }
 
   result += `this.$$stateProps = ${JSON.stringify(stateProps)};\n`;
   result += `this.$$privateProps = ${JSON.stringify(privateProps)};\n`;
