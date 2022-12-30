@@ -58,14 +58,15 @@ export default function renderComponent(
   }
 
   if(children.length > 0) {
-    code += `const defaultSlotFn = () => {\n`;
+    const slotFnName = nodeName('defaulSlotFn');
+    code += `const ${slotFnName} = () => {\n`;
     code += `const children = [];\n`;
     children.forEach((child, index) => {
       code += renderNode(child, name, children, index, true, isParentEachNode);
     });
     code += `return children;\n`;
     code += '};\n';
-    code += `${name}.setSlotFn('$default', defaultSlotFn);\n`;
+    code += `${name}.setSlotFn('$default', ${slotFnName});\n`;
   }
 
   if (isParentControlNode) {
