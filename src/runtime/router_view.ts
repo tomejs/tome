@@ -28,8 +28,11 @@ export default class extends Component {
     try {
       let dynamicComponent: Component = null;
       const dynamicComponentCreate = () => {
-        const component = this.$routes.find((route: { path: string, component: Component}) => route.path === this.route);
-        dynamicComponent = new component(this.$ctx);
+        const route = this.$routes.find(
+          (route: { path: string, component: Component}) => route.path === this.route
+        );
+        if(!route) throw new Error(`Undefined route [${this.route}]`);
+        dynamicComponent = new route.component(this.$ctx);
         dynamicComponent.mount(root, anchor);
       }
       dynamicComponentCreate();

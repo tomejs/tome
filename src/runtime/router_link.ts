@@ -20,7 +20,7 @@ export default class extends Component {
 
   handleClick(ev: Event) {
     ev.preventDefault();
-    window.history.pushState(null, '', this.to);
+    this.$ctx.$router.push(this.to);
   }
   render(root: HTMLElement, anchor?: HTMLElement) {
     const a = node('a');
