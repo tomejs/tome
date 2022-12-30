@@ -3,25 +3,19 @@ import { compile } from "./compiler";
 
 console.log('Compiling ...');
 const result = compile(`
-import RouterView from './components/RouterView.tome'
-import RouterLink from './components/RouterLink.tome'
-
 class {
-  #components = {
-    RouterView
-  }
 }
 
 <!-- template -->
 
 <div class="flex items-center flex-col gap-4">
   <div>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/dashboard">Dashboard</RouterLink>
+    <router-link to="/">Home</router-link>
+    <router-link to="/about">About</router-link>
+    <router-link to="/dashboard">Dashboard</router-link>
   </div>
   <div>
-    <RouterView />
+    <router-view />
   </div>
 </div>
 `);

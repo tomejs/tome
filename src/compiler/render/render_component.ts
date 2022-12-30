@@ -12,9 +12,9 @@ export default function renderComponent(
   const name = nodeName(tagName).replace(/-/g, '_');
   let ref = '';
 
-  code += `const ${name}Component = this.$$components.${tagName} || this.$components.${tagName};\n`;
+  code += `const ${name}Component = this.$$components['${tagName}'] || this.$components['${tagName}'];\n`;
   code += `if(!${name}Component) throw new Error('Component ${tagName} is not defined');\n`;
-  code += `const ${name} = new this.$$components.${tagName}(this.$ctx);\n`;
+  code += `const ${name} = new ${name}Component(this.$ctx);\n`;
 
   if (attributes.length > 0) {
     code += `${name}.setProps({\n`;
