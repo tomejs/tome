@@ -34,7 +34,7 @@ export default class Component {
     }
   }
 
-  $$pub(name: string, data: any) {
+  $$pub(name: string, data?: any) {
     this.$$subs[name] && this.$$subs[name].forEach(fn => fn(data));
   }
 
@@ -42,10 +42,10 @@ export default class Component {
   mounted() {}
   updated() {}
   destroyed() {}
-  render(target: HTMLElement) {target;}
+  render(target: HTMLElement, anchor?: HTMLElement) {target; anchor;}
 
-  mount(target: HTMLElement) {
-    this.render(target);
+  mount(target: HTMLElement, anchor?: HTMLElement) {
+    this.render(target, anchor);
     this.mounted();
   }
 

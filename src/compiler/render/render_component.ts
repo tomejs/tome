@@ -9,10 +9,11 @@ export default function renderComponent(
 ) {
   let code = '';
   const { tagName, attributes, children } = node as HTMLNode;
-  const name = nodeName(tagName);
+  const name = nodeName(tagName).replace(/-/g, '_');
   let ref = '';
 
-  code += 'try {\n';
+  code += `const ${name}Component = this.$$components.${tagName}; || this.$components.${tagName}\n`;
+  code += `if(!${name}Component) throw new Error('Component ${tagName} is not defined');\n`;
   code += `const ${name} = new this.$$components.${tagName}(this.$ctx);\n`;
 
   if (attributes.length > 0) {
@@ -76,11 +77,6 @@ export default function renderComponent(
   if(isParentEachNode) {
     code += `updates.push(() => ${name}.update());\n`;
   }
-
-
-  code += '} catch(e) {\n';
-  code += `throw new Error('Component \\'${tagName}\\' not found');\n`;
-  code += '}\n';
 
   return code;
 }

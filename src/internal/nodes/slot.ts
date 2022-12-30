@@ -8,7 +8,7 @@ export default function slot(name: string, initialCreationFn?: NodeCreationFunct
 
   return {
     root: anchor,
-    mount(parent: HTMLElement, _anchor: HTMLElement) {
+    mount(parent: any, _anchor?: any) {
       parentNode = parent;
       if(_anchor) {
         parent.insertBefore(anchor, _anchor);

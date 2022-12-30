@@ -1,9 +1,5 @@
-export interface ApplicationContext {
-  $store: { [key: string]: Component };
-}
-
 export interface Component {
-  new(ctx: ApplicationContext): Component;
+  new(ctx: { [key: string]: any }): Component;
   render: () => HTMLElement;
   mount: (root: HTMLElement) => void;
 };
@@ -11,6 +7,7 @@ export interface Component {
 export interface TomeApplicationOptions {
   root: HTMLElement;
   component: Component;
-  store: { [key: string]: Component };
+  store: { [key: string]: any };
+  routes: { component: Component, path: string }[];
 };
 

@@ -1,8 +1,12 @@
 export interface Node {
-  root: HTMLElement;
-  mount(parent: HTMLElement, anchor: HTMLElement | Comment): void;
+  root: HTMLElement | Comment;
+  mount(parent: any, anchor?: any): void;
   unmount(): void;
-  update(): void;
+  update?(): void;
+  append?(child: HTMLElement): void;
+  insertBefore?(child: HTMLElement, anchor: HTMLElement): void;
+  setAttribute?(name: string, value: string): void;
+  addEventListener?(name: string, handler: () => void): void;
 }
 
 export type ConditionFunction = (() => boolean);
