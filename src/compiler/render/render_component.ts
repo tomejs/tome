@@ -46,10 +46,13 @@ export default function renderComponent(
       code += `this.$refs['${ref}'] = ${name};\n`;
     }
 
-    const deps = getDeps(attributes.map((attribute) => attribute.value).join(','));
-
-    deps.forEach((dep) => {
-      code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');});\n`;
+    attributes.forEach((attribute) => {
+      if (attribute.type === 'expression') {
+        const deps = getDeps(attribute.value as string);
+        deps.forEach((dep) => {
+          code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');});\n`;
+        });
+      }
     });
   }
 
