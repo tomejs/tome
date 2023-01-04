@@ -5,10 +5,11 @@ import RouterLink from './router_link';
 import RouterView from './router_view';
 
 export default function Tome (options: TomeApplicationOptions) {
-  const { root, component, store, routes } = options;
+  const { root, component, store, routes, components = {} } = options;
   const ctx: { [key: string]: any } = {
     $events: events(),
     $components: {
+      ...components,
       'router-link': RouterLink,
       'router-view': RouterView
     }

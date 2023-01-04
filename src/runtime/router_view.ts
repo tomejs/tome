@@ -25,23 +25,19 @@ export default class extends Component {
   }
 
   render(root: HTMLElement, anchor?: HTMLElement) {
-    try {
-      let dynamicComponent: Component = null;
-      const dynamicComponentCreate = () => {
-        const route = this.$routes.find(
-          (route: { path: string, component: Component}) => route.path === this.route
-        );
-        if(!route) throw new Error(`Undefined route [${this.route}]`);
-        dynamicComponent = new route.component(this.$ctx);
-        dynamicComponent.mount(root, anchor);
-      }
-      dynamicComponentCreate();
-      this.$$sub(['route'], () => {
-        dynamicComponent.unmount();
-        dynamicComponentCreate();
-      });
-    } catch(e) {
-      throw new Error(`Undefined route [${this.route}]`);
+    let dynamicComponent: Component = null;
+    const dynamicComponentCreate = () => {
+      const route = this.$routes.find(
+        (route: { path: string, component: Component}) => route.path === this.route
+      );
+      if(!route) throw new Error(`Undefined route [${this.route}]`);
+      dynamicComponent = new route.component(this.$ctx);
+      dynamicComponent.mount(root, anchor);
     }
+    dynamicComponentCreate();
+    this.$$sub(['route'], () => {
+      dynamicComponent.unmount();
+      dynamicComponentCreate();
+    });
   }
 }

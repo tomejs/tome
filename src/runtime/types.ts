@@ -7,6 +7,7 @@ export interface Component {
 export interface TomeApplicationOptions {
   root: HTMLElement;
   component: Component;
+  components: { [key: string]: Component };
   store: { [key: string]: any };
   routes: { component: Component, path: string }[];
 };
