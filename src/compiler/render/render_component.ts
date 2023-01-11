@@ -68,7 +68,7 @@ export default function renderComponent(
     code += `const ${slotFnName} = () => {\n`;
     code += `const children = [];\n`;
     children.forEach((child, index) => {
-      code += renderNode(child, name, children, index, true, isParentEachNode);
+      code += renderNode(child, name, children, index, true, isParentEachNode, eachContext);
     });
     code += `return children;\n`;
     code += '};\n';
