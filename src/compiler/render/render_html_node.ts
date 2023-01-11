@@ -2,13 +2,15 @@ import { HTMLNode } from "../parser/utils/types";
 import nodeName from "../utils/node_name";
 import renderNode from "./render_node";
 import getDeps from "../utils/get_deps";
+import changeToFunctionCall from "../utils/change_to_function_call";
 import isMember from "../utils/is_member";
 
 export default function renderHTMLNode(
   node: HTMLNode,
   parentName: string,
   isParentControlNode?: boolean,
-  isParentEachNode?: boolean
+  isParentEachNode?: boolean,
+  eachContext?: { item: string, index: string }
 ) {
   let code = '';
   const { tagName, attributes, children } = node;
@@ -35,23 +37,31 @@ export default function renderHTMLNode(
           code += `});\n`;
         }
       } else {
-        code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
+        if(isParentEachNode) {
+          code += `${name}.setAttribute('${attribute.name}', ${changeToFunctionCall(attribute.value as string, eachContext)});\n`;
+        } else {
+          code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
+        }
         const deps = getDeps(attribute.value as string);
         if(deps.length > 0) {
           code += `this.$$sub(${JSON.stringify(deps)}, () => {\n`;
-          code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
+          if(isParentEachNode) {
+            code += `${name}.setAttribute('${attribute.name}', ${changeToFunctionCall(attribute.value as string, eachContext)});\n`;
+          } else {
+            code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
+          }
           code += `});\n`;
         }
 
         if(isParentEachNode) {
-          code += `updates.push(() => ${name}.setAttribute('${attribute.name}', ${attribute.value}));\n`;
+          code += `updates.push(() => ${name}.setAttribute('${attribute.name}', ${changeToFunctionCall(attribute.value as string, eachContext)}));\n`;
         }
       }
     }
   });
 
   children.forEach((child, index) => {
-    code += renderNode(child, name, children, index, false, isParentEachNode);
+    code += renderNode(child, name, children, index, false, isParentEachNode, eachContext);
   });
 
   if(isParentControlNode) {

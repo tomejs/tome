@@ -1,10 +1,12 @@
 import { AnyNode, HTMLNode, HTMLNodeAttribute } from '../parser/utils/types';
 import nodeName from '../utils/node_name';
 import getDeps from '../utils/get_deps';
+import changeToFunctionCall from '../utils/change_to_function_call';
 import isMember from '../utils/is_member';
 
 export default function renderDynamicComponent(
-  node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean
+  node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean,
+  eachContext?: { item: string, index: string }
 ) {
   let code = '';
   let { attributes } = node as HTMLNode;
@@ -24,7 +26,11 @@ export default function renderDynamicComponent(
         ref = attribute.value as string;
       } else if(!attribute.name.startsWith('@')) {
         if(attribute.type === 'expression' || attribute.type === 'boolean') {
-          code += `${attribute.name}: ${attribute.value},\n`;
+          if(isParentEachNode) {
+            code += `${attribute.name}: ${changeToFunctionCall(attribute.value as string, eachContext)},\n`;
+          } else {
+            code += `${attribute.name}: ${attribute.value},\n`;
+          }
         } else {
           code += `${attribute.name}: '${attribute.value}',\n`;
         }

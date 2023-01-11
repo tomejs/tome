@@ -20,7 +20,7 @@ export interface ListBlock {
   update(list: any[]): void;
 };
 
-export type ListBlockCreationFunction = ((item: any, index: number) => ListBlock);
+export type ListBlockCreationFunction = ((item: () => any, index: () => number) => ListBlock);
 
 export type KeyFunction = ((item: any, index: number) => any);
 

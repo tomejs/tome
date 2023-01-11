@@ -18,7 +18,7 @@ export default function each(listFn: ListFunction, createFn: ListBlockCreationFu
 
       const list = listFn();
       blocks = list.map((item, index) => {
-        const { nodes, update } = createFn(item, index);
+        const { nodes, update } = createFn(() => item, () => index);
         nodes.forEach(node => node.mount(parentNode, anchor));
         return { nodes, update };
       });
@@ -35,7 +35,8 @@ export default function each(listFn: ListFunction, createFn: ListBlockCreationFu
 
       if(diff > 0) {
         for(let i=0; i<diff; i++) {
-          const { nodes, update }= createFn(list[cache.length + i], cache.length + i);
+          const index = i;
+          const { nodes, update }= createFn(() => list[cache.length + index], () => cache.length + index);
           nodes.forEach(node => node.mount(parentNode, anchor));
           blocks.push({ nodes, update });
         }

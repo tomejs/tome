@@ -1,11 +1,12 @@
 import { ControlNode, AnyNode, NodeList, HTMLTextNode } from "../parser/utils/types";
 import getDeps from "../utils/get_deps";
+import changeToFunctionCall from "../utils/change_to_function_call";
 import nodeName from "../utils/node_name";
 import renderNode from "./render_node";
 
 export default function renderIfBlock (
   _node: AnyNode, parentName: string, template: NodeList, index: number, isParentControlNode?: boolean,
-  isParentEachNode?: boolean
+  isParentEachNode?: boolean, eachContext?: { item: string, index: string }
 ) {
   let code = '';
   const node = _node as ControlNode;
@@ -40,7 +41,10 @@ export default function renderIfBlock (
 
   code += `const ${name} = ifblock([\n`;
   code += conditionNodes.map((conditionNode) => {
-    const { expression } = conditionNode;
+    let { expression } = conditionNode;
+    if(isParentEachNode) {
+      expression = changeToFunctionCall(expression, eachContext);
+    }
     return `() => ${expression}`;
   }).join(',\n');
   code += `\n],[\n`;

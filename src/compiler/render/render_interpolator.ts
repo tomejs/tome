@@ -1,15 +1,20 @@
 import { AnyNode, HTMLTextInterpolationNode } from "../parser/utils/types";
 import nodeName from "../utils/node_name";
 import getDeps from "../utils/get_deps";
-
+import changeToFunctionCall from "../utils/change_to_function_call";
 
 export default function renderInterpolator(
-  node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean
+  node: AnyNode, parentName: string, isParentControlNode?: boolean, isParentEachNode?: boolean,
+  eachContext?: { item: string, index: string }
 ) {
   let code = '';
   const name = nodeName('text');
-  const { expression } = node as HTMLTextInterpolationNode;
+  let { expression } = node as HTMLTextInterpolationNode;
   const deps = getDeps(expression);
+
+  if(isParentEachNode) {
+    expression = changeToFunctionCall(expression, eachContext);
+  }
 
   code += `const ${name} = text(${expression})\n`;
 

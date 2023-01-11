@@ -11,32 +11,32 @@ import renderDynamicComponent from './render_dynamic_component';
 
 export default function renderNode(
   node: AnyNode, parentName: string, template: NodeList, index: number, isParentControlNode?: boolean,
-  isParentEachNode?: boolean
+  isParentEachNode?: boolean, eachContext?: { item: string, index: string }
 ): string {
   let code = '';
 
   if(node.type === 'text') {
     code += renderText(node, parentName, isParentControlNode);
   } else if(node.type === 'interpolator') {
-    code += renderInterpolator(node, parentName, isParentControlNode, isParentEachNode);
+    code += renderInterpolator(node, parentName, isParentControlNode, isParentEachNode, eachContext);
   } else if(node.type === 'node') {
     const { tagName } = node as HTMLNode;
 
     if (tagName === 'if') {
-      code += renderIfBlock(node as HTMLNode, parentName, template, index, isParentControlNode, isParentEachNode);
+      code += renderIfBlock(node as HTMLNode, parentName, template, index, isParentControlNode, isParentEachNode, eachContext);
     } else if (tagName === 'each') {
-      code += renderEach(node as HTMLNode, parentName, index, isParentControlNode, isParentEachNode);
+      code += renderEach(node as HTMLNode, parentName, index, isParentControlNode, isParentEachNode, eachContext);
     } else if (tagName === 'slot') {
       if(isParentEachNode) {
         throw new Error('Cannot use <slot> inside <each>');
       }
       code += renderSlot(node as HTMLNode, parentName, isParentControlNode);
     } else if (tagName === 'component') {
-      code += renderDynamicComponent(node as HTMLNode, parentName, isParentControlNode, isParentEachNode);
+      code += renderDynamicComponent(node as HTMLNode, parentName, isParentControlNode, isParentEachNode, eachContext);
     } else if(!isHTMLNode(tagName)) {
-      code += renderComponent(node as HTMLNode, parentName, isParentControlNode, isParentEachNode);
+      code += renderComponent(node as HTMLNode, parentName, isParentControlNode, isParentEachNode, eachContext);
     } else {
-      code += renderHTMLNode(node as HTMLNode, parentName, isParentControlNode, isParentEachNode);
+      code += renderHTMLNode(node as HTMLNode, parentName, isParentControlNode, isParentEachNode, eachContext);
     }
   }
 

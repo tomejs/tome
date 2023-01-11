@@ -11,7 +11,7 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
     const list = listFn();
     list.forEach((item, index) => {
       const key = keyFn(item, index).toString();
-      const { nodes, update } = createFn(item, index);
+      const { nodes, update } = createFn(() => list[index], () => index);
       nodes.forEach(node => node.mount(parentNode, anchor));
       blocks[key] = { nodes, update, index };
       cacheIndexByKey[key] = index;
@@ -54,11 +54,13 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
             blocks[oldKey].nodes.forEach(node => node.unmount());
             j--;
           } else if(oldKey === '') {
-            const { nodes, update } = createFn(list[i], i);
+            const index = i;
+            const { nodes, update } = createFn(() => list[index], () => index);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
           } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] !== undefined) {
-            const { nodes, update } = createFn(list[i], i);
+            const index = i;
+            const { nodes, update } = createFn(() => list[index], () => index);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
           } else if(cacheIndexByKey[newKey] !== undefined && indexByKey[oldKey] === undefined) {
@@ -67,7 +69,8 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
             i++;
             j--;
           } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] === undefined) {
-            const { nodes, update } = createFn(list[i], i);
+            const index = i;
+            const { nodes, update } = createFn(() => list[index], () => index);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
 
