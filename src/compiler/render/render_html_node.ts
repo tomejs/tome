@@ -34,7 +34,7 @@ export default function renderHTMLNode(
         } else {
           code += `${name}.addEventListener('${eventName}', ($event) => {\n`;
           if(isParentEachNode) {
-            code += `${changeToFunctionCall(attribute.value, eachContext)};\n`;
+            code += `${changeToFunctionCall(attribute.value as string, eachContext)};\n`;
           } else {
             code += `${attribute.value};\n`;
           }
