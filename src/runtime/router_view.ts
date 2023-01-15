@@ -26,12 +26,30 @@ export default class extends Component {
 
   render(root: HTMLElement, anchor?: HTMLElement) {
     let dynamicComponent: Component = null;
+    let $params: { [key: string]: string } = {};
     const dynamicComponentCreate = () => {
       const route = this.$routes.find(
-        (route: { path: string, component: Component}) => route.path === this.route
+        (route: { path: string, component: Component}) => {
+          const pathParts = route.path.split('/').slice(1);
+          const routeParts = this.route.split('/').slice(1);
+          $params = {};
+          console.log(pathParts, routeParts);
+
+          if(pathParts.length !== routeParts.length) return false;
+
+          for(let i = 0; i < pathParts.length; i++) {
+            if(pathParts[i].startsWith(':')) {
+              $params[pathParts[i].slice(1)] = routeParts[i];
+              continue;
+            }
+            if(pathParts[i] !== routeParts[i]) return false;
+          }
+
+          return true;
+        }
       );
       if(!route) throw new Error(`Undefined route [${this.route}]`);
-      dynamicComponent = new route.component(this.$ctx);
+      dynamicComponent = new route.component({ ...this.$ctx, $params });
       dynamicComponent.mount(root, anchor);
     }
     dynamicComponentCreate();
