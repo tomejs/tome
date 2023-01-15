@@ -32,7 +32,7 @@ export default function renderDynamicComponent(
             code += `${attribute.name}: ${attribute.value},\n`;
           }
         } else {
-          code += `${attribute.name}: '${attribute.value}',\n`;
+          code += `${attribute.name}: '${(attribute.value as string).replace('\'', '\\\'')}',\n`;
         }
       }
     });
