@@ -63,7 +63,12 @@ export default function renderDynamicComponent(
   if (isParentControlNode) {
     code += `children.push(${name});\n`;
   } else {
-    code += `${name}.mount(${parentName});\n`;
+    if(parentName === 'root') {
+      code += `${name}.mount(${parentName}, anchor);\n`;
+      code += `this.$$nodes.push(${name});\n`;
+    } else {
+      code += `${name}.mount(${parentName});\n`;
+    }
   }
 
   if(isParentEachNode) {
