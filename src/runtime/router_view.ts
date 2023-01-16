@@ -28,6 +28,12 @@ export default class extends Component {
     let dynamicComponent: Component = null;
     let $params: { [key: string]: string } = {};
     const dynamicComponentCreate = () => {
+      this.$routes.sort((a: {[key: string] : string}, b: {[key: string]: string}) => {
+        if(a.path.includes(':')) return 1;
+        if(b.path.includes(':')) return -1;
+
+        return 0;
+      });
       const route = this.$routes.find(
         (route: { path: string, component: Component}) => {
           const pathParts = route.path.split('/').slice(1);
