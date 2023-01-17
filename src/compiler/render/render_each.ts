@@ -19,7 +19,7 @@ export default function renderEach(
     expression = changeToFunctionCall(expression, eachContext);
   }
 
-  if(key) {
+  if(key && index !== key) {
     code += `const ${name} = keyedEach(() => ${collection}, (${item}, ${index}) => ${key}, (${item}, ${index}) => {\n`;
   } else {
     code += `const ${name} = each(() => ${collection}, (${item}, ${index}) => {\n`;

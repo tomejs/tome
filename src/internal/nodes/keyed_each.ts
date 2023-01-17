@@ -39,10 +39,14 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
     },
     update() {
       const list = listFn();
-      const indexByKey: { [key: string]: number } = {}
+      const indexByKey: { [key: string]: number } = {};
+      const itemByKey: { [key: string]: any } = {};
       const newBlocks: ListKeyedBlockMap = {};
 
-      list.forEach((item, index) => indexByKey[keyFn(item, index)] = index);
+      list.forEach((item, index) => {
+        itemByKey[keyFn(item, index)] = item;
+        indexByKey[keyFn(item, index)] = index;
+      });
 
       for(let i=list.length-1, j=cacheList.length-1; i >= 0 || j >= 0; i--) {
         const newKey = list[i] ? keyFn(list[i], i) : '';
@@ -54,13 +58,11 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
             blocks[oldKey].nodes.forEach(node => node.unmount());
             j--;
           } else if(oldKey === '') {
-            const index = i;
-            const { nodes, update } = createFn(() => list[index], () => index);
+            const { nodes, update } = createFn(() => itemByKey[newKey], () => indexByKey[newKey]);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
           } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] !== undefined) {
-            const index = i;
-            const { nodes, update } = createFn(() => list[index], () => index);
+            const { nodes, update } = createFn(() => itemByKey[newKey], () => indexByKey[newKey]);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
           } else if(cacheIndexByKey[newKey] !== undefined && indexByKey[oldKey] === undefined) {
@@ -69,8 +71,7 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
             i++;
             j--;
           } else if(cacheIndexByKey[newKey] === undefined && indexByKey[oldKey] === undefined) {
-            const index = i;
-            const { nodes, update } = createFn(() => list[index], () => index);
+            const { nodes, update } = createFn(() => itemByKey[newKey], () => indexByKey[newKey]);
             nodes.forEach(node => node.mount(parentNode, _anchor));
             newBlocks[newKey] = { nodes, update, index: i };
 
