@@ -3,7 +3,6 @@ import { simple as walkSimple } from "acorn-walk";
 import { generate } from "astring";
 
 export default function changeToFunctionCall(source: string, eachContext: { item: string, index: string }) {
-  console.log(source);
   const ast = Parser.parse(source, { ecmaVersion: 2020 });
   walkSimple(ast, {
     MemberExpression(node: any) {

@@ -39,7 +39,6 @@ export default class extends Component {
           const pathParts = route.path.split('/').slice(1);
           const routeParts = this.route.split('/').slice(1);
           $params = {};
-          console.log(pathParts, routeParts);
 
           if(pathParts.length !== routeParts.length) return false;
 

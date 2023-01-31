@@ -53,7 +53,7 @@ export default function renderIfBlock (
     let code = '';
 
     children.forEach((child, index) => {
-      code += renderNode(child, name, children, index, true, isParentEachNode);
+      code += renderNode(child, name, children, index, true, isParentEachNode, eachContext);
     });
 
     return `() => {\nconst children = [];\n${code}\nreturn children;\n}`;
