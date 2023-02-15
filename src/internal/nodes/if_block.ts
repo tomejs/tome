@@ -14,6 +14,10 @@ export default function ifblock(conditions: ConditionFunction[], createFns: Node
       nodes.forEach(node => node.unmount());
       nodes = createFns[index]();
       return true;
+    } else if(index === -1 && nodes.length) {
+      nodes.forEach(node => node.unmount());
+      nodes = [];
+      return true;
     }
 
     return false;
