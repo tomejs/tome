@@ -20,8 +20,23 @@ export default function node(name: string) {
     insertBefore(child: HTMLElement, anchor: HTMLElement) {
       root.insertBefore(child, anchor ? anchor : null);
     },
-    setAttribute(name: string, value: string) {
-      root.setAttribute(name, '' + value);
+    setAttribute(name: string, value: string | Array<string|object> | object) {
+      let processed = value;
+      if (Array.isArray(value)) {
+        processed = value.map((v) => {
+          if (typeof v === 'object') {
+            Object.keys(v).map((k) => {
+              return v ? k : '';
+            });
+          }
+          return v;
+        }).join(' ');
+      } else if (typeof value === 'object') {
+        processed = Object.keys(value).map((k) => {
+          return value ? k : '';
+        }).join(' ');
+      }
+      root.setAttribute(name, '' + processed);
     },
     addEventListener(name: string, handler: () => void) {
       root.addEventListener(name, handler);
