@@ -54,10 +54,19 @@ export default function renderComponent(
     }
 
     attributes.forEach((attribute) => {
-      if (attribute.type === 'expression') {
+      if (!attribute.name.startsWith('@') && attribute.type === 'expression') {
         const deps = getDeps(attribute.value as string);
         deps.forEach((dep) => {
-          code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');});\n`;
+          code += `this.$$sub('${dep}', () => {\n`;
+          code += `${name}.setProps({\n`;
+          if(isParentEachNode) {
+            code += `${attribute.name}: ${changeToFunctionCall(attribute.value as string, eachContext)},\n`;
+          } else {
+            code += `${attribute.name}: ${attribute.value},\n`;
+          }
+          code += `});\n`;
+          code += `${name}.$$pub('${attribute.name}')`;
+          code += '});\n';
         });
       }
     });
