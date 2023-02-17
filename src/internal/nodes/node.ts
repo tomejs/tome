@@ -25,9 +25,9 @@ export default function node(name: string) {
       if (Array.isArray(value)) {
         processed = value.map((v) => {
           if (typeof v === 'object') {
-            Object.keys(v).map((k) => {
-              return v ? k : '';
-            });
+            return Object.keys(v).map((k) => {
+              return v[k] ? k : '';
+            }).join();
           }
           return v;
         }).join(' ');
