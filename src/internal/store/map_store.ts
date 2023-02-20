@@ -39,12 +39,6 @@ export default function mapStore(component: Component, stores: string[]) {
       });
     });
 
-    $store[store].$$setters.forEach((setter) => {
-      component[setter] = function(...args: any[]) {
-        $store[store][setter].apply($store[store], args);
-      };
-    });
-
     $store[store].$$methods.forEach((method) => {
       $store[store].$$sub(method, (data) => {
         component.$$pub(method, data);

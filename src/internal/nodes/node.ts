@@ -20,14 +20,14 @@ export default function node(name: string) {
     insertBefore(child: HTMLElement, anchor: HTMLElement) {
       root.insertBefore(child, anchor ? anchor : null);
     },
-    setAttribute(name: string, value: string | Array<string|object> | object) {
+    setAttribute(name: string, value: string | Array<string|object> | object | boolean) {
       let processed = value;
       if (Array.isArray(value)) {
         processed = value.map((v) => {
           if (typeof v === 'object') {
             return Object.keys(v).map((k) => {
               return v[k] ? k : '';
-            }).join();
+            }).join(' ');
           }
           return v;
         }).join(' ');
@@ -36,7 +36,14 @@ export default function node(name: string) {
           return value ? k : '';
         }).join(' ');
       }
-      root.setAttribute(name, '' + processed);
+
+      if(typeof processed === 'string' && processed.length) {
+        root.setAttribute(name, '' + processed);
+      } else if(processed === false) {
+        root.removeAttribute(name);
+      } else if(processed === true) {
+        root.setAttribute(name, '');
+      }
     },
     addEventListener(name: string, handler: () => void) {
       root.addEventListener(name, handler);
