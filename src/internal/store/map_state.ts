@@ -30,7 +30,7 @@ export default function mapState(component: Component, states: any) {
     } else if (Array.isArray(states[store])) {
       states[store].forEach((prop: string) => {
         $store[store].$$sub(prop, (data) => {
-          component[`$${prop}`] = $store[store][prop];
+          component[`$$${prop}`] = $store[store][prop];
           component.$$pub(prop, data);
         });
         component[`$$${prop}`] = $store[store][prop];
