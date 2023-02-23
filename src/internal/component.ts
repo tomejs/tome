@@ -32,7 +32,7 @@ export default class Component {
     } else if(Array.isArray(name)) {
       name.map(n => this.$$sub(n, fn));
     }
-    return [name, fn];
+    return {name, fn};
   }
 
   $$pub(name: string, data?: any) {

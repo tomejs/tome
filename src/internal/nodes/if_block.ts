@@ -1,9 +1,12 @@
 import { Node, ConditionFunction, NodeCreationFunction } from './types';
+import Component from '../component';
 
-export default function ifblock(conditions: ConditionFunction[], createFns: NodeCreationFunction[]) {
+export default function ifblock(_parentComponent: Component, conditions: ConditionFunction[], createFns: NodeCreationFunction[]) {
   const anchor: Comment = document.createComment('if');
+  const parentComponent = _parentComponent;
   let parentNode: HTMLElement = null;
   let nodes: Node[] = [];
+  let subscriptions: any[] = [];
   let currentIndex = -1;
 
   function update() {
@@ -12,11 +15,15 @@ export default function ifblock(conditions: ConditionFunction[], createFns: Node
     if(index !== currentIndex && index >= 0) {
       currentIndex = index;
       nodes.forEach(node => node.unmount());
-      nodes = createFns[index]();
+      subscriptions.forEach(sub => parentComponent.$$unsub(sub?.name, sub?.fn));
+      const { children, subs } = createFns[index]();
+      nodes = children;
+      subscriptions = subs;
       return true;
     } else if(index === -1 && nodes.length) {
       currentIndex = -1;
       nodes.forEach(node => node.unmount());
+      subscriptions.forEach(sub => parentComponent.$$unsub(sub?.name, sub?.fn));
       nodes = [];
       return true;
     }

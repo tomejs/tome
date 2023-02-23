@@ -57,7 +57,9 @@ export default function renderDynamicComponent(
     const deps = getDeps(attributes.map((attribute) => attribute.value).join(','));
 
     deps.forEach((dep) => {
-      code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');});\n`;
+      code += 'subs.push(\n';
+      code += `this.$$sub('${dep}', () => {\n${name}.$$pub('${dep}');})\n`;
+      code += ');\n';
     });
   }
   if (isParentControlNode) {
@@ -80,10 +82,12 @@ export default function renderDynamicComponent(
 
   const deps = getDeps(componentName);
 
+  code += 'subs.push(\n';
   code += `this.$$sub(${JSON.stringify(deps)}, () => {\n`;
   code += `${name}.unmount();\n`;
   code += `${name}Create();\n`;
-  code += `});\n`;
+  code += `})\n`;
+  code += ');\n';
 
   code += '} catch(e) {\n';
   code += `throw new Error('Component \\'${componentName}\\' not found');\n`;

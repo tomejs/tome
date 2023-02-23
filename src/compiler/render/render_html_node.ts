@@ -48,13 +48,15 @@ export default function renderHTMLNode(
         }
         const deps = getDeps(attribute.value as string);
         if(deps.length > 0) {
+          code += 'subs.push(\n';
           code += `this.$$sub(${JSON.stringify(deps)}, () => {\n`;
           if(isParentEachNode) {
             code += `${name}.setAttribute('${attribute.name}', ${changeToFunctionCall(attribute.value as string, eachContext)});\n`;
           } else {
             code += `${name}.setAttribute('${attribute.name}', ${attribute.value});\n`;
           }
-          code += `});\n`;
+          code += `})\n`;
+          code += ');\n';
         }
 
         if(isParentEachNode) {

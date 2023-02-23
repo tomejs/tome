@@ -35,7 +35,9 @@ export default function renderEach(
   code += `\nreturn { nodes: children, update: () => updates.forEach(cb => cb()) };\n});\n`;
 
   if(deps.length > 0) {
-    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update();\n});\n`;
+    code += 'subs.push(\n';
+    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update();\n})\n`;
+    code += ');\n';
   }
 
   if(isParentControlNode) {

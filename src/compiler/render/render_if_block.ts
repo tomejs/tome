@@ -39,7 +39,7 @@ export default function renderIfBlock (
     template.splice(next, 1);
   }
 
-  code += `const ${name} = ifblock([\n`;
+  code += `const ${name} = ifblock(this, [\n`;
   code += conditionNodes.map((conditionNode) => {
     let { expression } = conditionNode;
     if(isParentEachNode) {
@@ -56,7 +56,7 @@ export default function renderIfBlock (
       code += renderNode(child, name, children, index, true, isParentEachNode, eachContext);
     });
 
-    return `() => {\nconst children = [];\n${code}\nreturn children;\n}`;
+    return `() => {\nconst children = [];\nconst subs = [];\n${code}\nreturn { children, subs };\n}`;
   }).join(',\n');
   code += `\n]);\n`;
 
@@ -70,7 +70,9 @@ export default function renderIfBlock (
   });
 
   if(deps.length > 0) {
-    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update();\n});\n`;
+    code += `subs.push(`;
+    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update();\n})\n`;
+    code += `);\n`;
   }
 
   if(isParentControlNode) {

@@ -11,13 +11,23 @@ export interface Node {
 
 export type ConditionFunction = (() => boolean);
 
-export type NodeCreationFunction = (() => Node[]);
+export interface IfBlockNode {
+  children: Node[];
+  subs: any[];
+}
+
+export type NodeCreationFunction = (() => IfBlockNode);
 
 export type ListFunction = (() => any[]);
 
 export interface ListBlock {
   nodes: Node[];
   update(list: any[]): void;
+};
+
+export interface IfBlockItems {
+  children: Node[];
+  subs: any[];
 };
 
 export type ListBlockCreationFunction = ((item: () => any, index: () => number) => ListBlock);

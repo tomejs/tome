@@ -57,6 +57,7 @@ export default function renderComponent(
       if (!attribute.name.startsWith('@') && attribute.type === 'expression') {
         const deps = getDeps(attribute.value as string);
         deps.forEach((dep) => {
+          code += 'subs.push(\n';
           code += `this.$$sub('${dep}', () => {\n`;
           code += `${name}.setProps({\n`;
           if(isParentEachNode) {
@@ -66,7 +67,8 @@ export default function renderComponent(
           }
           code += `});\n`;
           code += `${name}.$$pub('${attribute.name}')`;
-          code += '});\n';
+          code += '})\n';
+          code += ');\n';
         });
       }
     });

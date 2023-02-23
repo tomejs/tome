@@ -19,7 +19,9 @@ export default function renderInterpolator(
   code += `const ${name} = text(${expression})\n`;
 
   if(deps.length > 0) {
-    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update(${expression});\n});\n`;
+    code += 'subs.push(\n';
+    code += `this.$$sub(${JSON.stringify(deps)}, () => {\n${name}.update(${expression});\n})\n`;
+    code += ');\n';
   }
 
   if(isParentControlNode) {
