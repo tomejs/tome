@@ -1,7 +1,7 @@
 import { KeyFunction, ListFunction, ListBlockCreationFunction, ListKeyedBlockMap } from "./types";
 
 export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, createFn: ListBlockCreationFunction) {
-  const anchor = document.createComment('');
+  const anchor = document.createComment('keyedEach');
   let parentNode: HTMLElement = null;
   let blocks: ListKeyedBlockMap = {};
   let cacheList: any[] = [];

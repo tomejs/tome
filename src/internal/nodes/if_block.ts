@@ -1,7 +1,7 @@
 import { Node, ConditionFunction, NodeCreationFunction } from './types';
 
 export default function ifblock(conditions: ConditionFunction[], createFns: NodeCreationFunction[]) {
-  const anchor: Comment = document.createComment('');
+  const anchor: Comment = document.createComment('if');
   let parentNode: HTMLElement = null;
   let nodes: Node[] = [];
   let currentIndex = -1;

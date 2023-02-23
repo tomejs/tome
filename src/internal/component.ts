@@ -23,19 +23,30 @@ export default class Component {
     }
   }
 
-  $$sub(name: string | string[], fn: (data: any) => void) {
+  $$sub(name: string | string[], fn: (data: any) => void) : any {
     if(typeof name === 'string') {
       if(!this.$$subs[name]) {
         this.$$subs[name] = [];
       }
       this.$$subs[name].push(fn);
     } else if(Array.isArray(name)) {
-      name.forEach(n => this.$$sub(n, fn));
+      name.map(n => this.$$sub(n, fn));
     }
+    return [name, fn];
   }
 
   $$pub(name: string, data?: any) {
     this.$$subs[name] && this.$$subs[name].forEach(fn => fn(data));
+  }
+
+  $$unsub(name: string | string[], fn: (data: any) => void) {
+    if(typeof name === 'string') {
+      if(this.$$subs[name]) {
+        this.$$subs[name] = this.$$subs[name].filter(f => f !== fn);
+      }
+    } else if(Array.isArray(name)) {
+      name.map(n => this.$$unsub(n, fn));
+    }
   }
 
   created() {}
@@ -76,6 +87,7 @@ export default class Component {
   }
 
   unmount() {
+    this.$$pub('destroy');
     this.$$nodes.forEach((node: Node) => {
       node.unmount();
     });

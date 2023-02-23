@@ -1,7 +1,7 @@
 import { ListBlock, ListFunction, ListBlockCreationFunction } from "./types";
 
 export default function each(listFn: ListFunction, createFn: ListBlockCreationFunction) {
-  const anchor = document.createComment('');
+  const anchor = document.createComment('each');
   let parentNode: HTMLElement = null;
   let blocks: ListBlock[] = [];
   let cache: any[] = [];
