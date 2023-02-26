@@ -4,8 +4,7 @@ export default function parseParenthesizedExpression(tokens: Tokenizer): string 
   let paren = 1;
   let contents = '';
   tokens.shift();
-  while(tokens.length() > 0 && paren > 0) {
-    contents += tokens.shift();
+  while(tokens.length() > 0) {
     if(tokens.peek() === '(') {
       paren++;
     } else if (tokens.peek() === '\'' || tokens.peek() === '"' || tokens.peek() === '`') {
@@ -18,7 +17,13 @@ export default function parseParenthesizedExpression(tokens: Tokenizer): string 
       continue;
     } else if(tokens.peek() === ')') {
       paren--;
+
+      if(paren === 0) {
+        break;
+      }
     }
+
+    contents += tokens.shift();
   }
 
   if(tokens.length() === 0) {

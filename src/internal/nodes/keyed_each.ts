@@ -10,7 +10,9 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
   function create() {
     const list = listFn();
     list.forEach((item, index) => {
-      const key = keyFn(item, index).toString();
+      const keyObj = keyFn(item, index);
+      if(!keyObj) throw new Error('Key function must return a value');
+      const key = keyObj.toString();
       const { nodes, update } = createFn(() => list[index], () => index);
       nodes.forEach(node => node.mount(parentNode, anchor));
       blocks[key] = { nodes, update, index };

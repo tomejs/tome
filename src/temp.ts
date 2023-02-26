@@ -4,15 +4,12 @@ import { compile } from "./compiler";
 console.log('Compiling ...');
 const result = compile(`
 class {
-  items = [];
+  str = 'abcdef';
 }
 
 <div>
-  <if(this.items.length)>
-    <each(item in this.items with key(item))>
-      <div>{item}</div>
-    </each>
-  </if>
+  <each(char in this.str.split(''))>
+  </each>
 </div>
 `);
 console.log(result);

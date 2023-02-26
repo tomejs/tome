@@ -13,7 +13,7 @@ export default function mapStore(component: Component, stores: string[]) {
 
     $store[store].$$stateProps.forEach((prop) => {
       $store[store].$$sub(prop, (data) => {
-        component[`$${prop}`] = $store[store][prop];
+        component[`$$${prop}`] = $store[store][prop];
         component.$$pub(prop, data);
       });
       component[`$$${prop}`] = $store[store][prop];
