@@ -12,12 +12,17 @@ export default function renderEach(
   let code = '';
   let { expression, children } = _node as ControlNode;
   const name = nodeName('each');
-  const { collection, item, index, key } = parseEachExpression(expression);
-  const deps = getDeps(collection);
 
   if(isParentEachNode) {
     expression = changeToFunctionCall(expression, eachContext);
+    // in expression tends to be rendered inside parenthesis lets remove it
+    if(expression.startsWith('(') && expression.endsWith(')')) {
+      expression = expression.slice(1, -1);
+    }
   }
+
+  const { collection, item, index, key } = parseEachExpression(expression);
+  const deps = getDeps(collection);
 
   if(key && index !== key) {
     code += `const ${name} = keyedEach(() => ${collection}, (${item}, ${index}) => ${key}, (${item}, ${index}) => {\n`;
