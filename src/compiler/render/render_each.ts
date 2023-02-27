@@ -13,15 +13,15 @@ export default function renderEach(
   let { expression, children } = _node as ControlNode;
   const name = nodeName('each');
 
+  let { collection, item, index, key } = parseEachExpression(expression);
+
   if(isParentEachNode) {
-    expression = changeToFunctionCall(expression, eachContext);
-    // in expression tends to be rendered inside parenthesis lets remove it
-    if(expression.startsWith('(') && expression.endsWith(')')) {
-      expression = expression.slice(1, -1);
-    }
+    collection = changeToFunctionCall(collection, eachContext);
+    item = changeToFunctionCall(item, eachContext);
+    index = changeToFunctionCall(index, eachContext);
+    key = changeToFunctionCall(key, eachContext);
   }
 
-  const { collection, item, index, key } = parseEachExpression(expression);
   const deps = getDeps(collection);
 
   if(key && index !== key) {
