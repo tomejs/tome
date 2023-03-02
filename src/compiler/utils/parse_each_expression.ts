@@ -60,8 +60,14 @@ export default function parseEachExpression (expression: string): EachExpression
 
     collection = '';
 
-    while(tokens.length() > 0 && tokens.peek() !== ' ') {
-      collection += tokens.shift();
+    while(tokens.length() > 0 && tokens.peekString('with') === false && tokens.peek() !== ')') {
+      if(tokens.peek() === '(') {
+        collection += '(';
+        collection += parseParenthesizedExpression(tokens);
+        collection += ')';
+      } else {
+        collection += tokens.shift();
+      }
     }
 
     tokens.removeSpaces();

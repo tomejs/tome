@@ -23,7 +23,7 @@ class {
 <div>
   <each(cls in this.classes with key(cls.name))>
     <div>
-      <each(index, student in cls.students with key(student.name))>
+      <each(index, student in cls.students.slice(0, 3) with key(student.name))>
         {student.name}
       </each>
     </div>
