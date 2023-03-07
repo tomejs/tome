@@ -42,7 +42,7 @@ export default function renderHTMLNode(
         }
       } else if(attribute.name.startsWith(':')) {
         const directiveName = attribute.name.slice(1);
-        code += `this.$directives['${directiveName}'](${name}, ${attribute.value}, this);\n`;
+        code += `this.$directives['${directiveName}'](${name}.root, ${attribute.value}, this);\n`;
       } else {
         if(isParentEachNode) {
           code += `${name}.setAttribute('${attribute.name}', ${changeToFunctionCall(attribute.value as string, eachContext)});\n`;
