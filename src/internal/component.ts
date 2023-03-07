@@ -14,6 +14,7 @@ export default class Component {
   $$setters: string[];
   $$methods: string[];
   $$nodes: Node[] = [];
+  $directives: {[key: string]: any} = {};
   [key: string]: any;
 
   constructor(ctx: {[key: string]: any}) {

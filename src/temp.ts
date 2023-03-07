@@ -21,13 +21,7 @@ class {
 }
 
 <div>
-  <each(cls in this.classes with key(cls.name))>
-    <div>
-      <each(index, student in cls.students.slice(0, 3) with key(student.name))>
-        {student.name}
-      </each>
-    </div>
-  </each>
+  <button :tooltip={ { text: 'Hover on me' } }>Click me!</button>
 </div>
 `);
 console.log(result);

@@ -40,6 +40,9 @@ export default function renderHTMLNode(
           }
           code += `});\n`;
         }
+      } else if(attribute.name.startsWith(':')) {
+        const directiveName = attribute.name.slice(1);
+        code += `this.$directives['${directiveName}'](${name}, ${attribute.value}, this);\n`;
       } else {
         if(isParentEachNode) {
           code += `${name}.setAttribute('${attribute.name}', ${changeToFunctionCall(attribute.value as string, eachContext)});\n`;
