@@ -1,6 +1,15 @@
+const SVG_NODES = ['svg', 'g', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'text', 'tspan', 'image', 'clipPath',
+  'mask', 'filter', 'pattern', 'marker', 'linearGradient', 'radialGradient', 'stop', 'symbol', 'use', 'defs', 'foreignObject',
+  'desc', 'title'];
 
 export default function node(name: string) {
-  const root = document.createElement(name);
+  let root: HTMLElement | SVGElement;
+  const isSVG = SVG_NODES.includes(name);
+  if(isSVG) {
+    root = document.createElementNS('http://www.w3.org/2000/svg', name);
+  } else {
+    root = document.createElement(name);
+  }
 
   return {
     root,
