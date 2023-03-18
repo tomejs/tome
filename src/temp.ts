@@ -8,7 +8,7 @@ class {
 }
 
 <div>
-  <circle stroke-width="2"></circle>
+  <use stroke-width="2"></use>
 </div>
 `);
 console.log(result);
