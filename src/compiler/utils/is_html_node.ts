@@ -6,7 +6,7 @@ const html_node_names = ["a","abbr","address","area","article","aside","audio","
   "rt","ruby","s","samp","script","section","select","small","source","span","strong","style","sub","summary","sup","svg",
   "table","tbody","td","template","textarea","tfoot","th","thead","time","title","tr","track","u","ul","var","video","wbr",
   "circle","clipPath","defs","ellipse","foreignObject","g","image","line","linearGradient","mask","path","pattern","polygon",
-  "polyline","radialGradient","rect","stop","svg","switch","symbol","text","textPath","tspan","use"];
+  "polyline","radialGradient","rect","stop","svg","switch","symbol","text","textPath","tspan","use", "filter"];
 
 
 export default function isHTMLNode(name: string): boolean {
