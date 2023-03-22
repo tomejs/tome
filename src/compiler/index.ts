@@ -171,7 +171,7 @@ export function compile (source: string): string {
 
   privateProps.forEach(prop => {
     result += `get ${prop}() {\n`;
-    result += `if(typeof this.$$${prop} === 'object' && tgus,$$${prop} !== null) {\n`;
+    result += `if(typeof this.$$${prop} === 'object' && this.$$${prop} !== null) {\n`;
     result += `return immutable(this.$$${prop}, () => {\n`;
     result += `throw new Error('Cannot mutate the component property \\'${prop}\\'');\n`;
     result += '});\n';
