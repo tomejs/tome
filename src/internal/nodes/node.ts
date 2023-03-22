@@ -1,6 +1,21 @@
-const SVG_NODES = ['svg', 'g', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'text', 'tspan', 'image', 'clipPath',
-  'mask', 'filter', 'pattern', 'marker', 'linearGradient', 'radialGradient', 'stop', 'symbol', 'use', 'defs', 'foreignObject',
-  'desc', 'title'];
+const SVG_NODES = ["svg", "animate", "animateMotion", "animateTransform", "circle", "clipPath", "defs", "desc", "ellipse",
+  "feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting", "feDisplacementMap",
+  "feDistantLight", "feDropShadow", "feFlood", "feFuncA", "feFuncB", "feFuncG", "feFuncR", "feGaussianBlur", "feImage",
+  "feMerge", "feMergeNode", "feMorphology", "feOffset", "fePointLight", "feSpecularLighting", "feSpotLight", "feTile",
+  "feTurbulence", "filter", "foreignObject", "g", "image", "line", "linearGradient", "marker", "mask", "metadata", "mpath",
+  "path", "pattern", "polygon", "polyline", "radialGradient", "rect", "stop", "switch", "symbol", "text", "textPath", "tspan",
+  "use", "view"];
+
+function getNamespaceForAttribute(name: string) {
+  if(name.startsWith('xlink:')) {
+    return 'http://www.w3.org/1999/xlink';
+  } else if(name.startsWith('xml:')) {
+    return 'http://www.w3.org/XML/1998/namespace';
+  } else if(name.startsWith('xmlns')) {
+    return 'http://www.w3.org/2000/xmlns/';
+  }
+  return null;
+}
 
 export default function node(name: string) {
   let root: HTMLElement | SVGElement;
@@ -47,11 +62,21 @@ export default function node(name: string) {
       }
 
       if(typeof processed === 'string' && processed.length) {
-        root.setAttribute(name, '' + processed);
+        if(isSVG) {
+          const namespace = getNamespaceForAttribute(name);
+          root.setAttributeNS(namespace, name, '' + processed);
+        } else {
+          root.setAttribute(name, '' + processed);
+        }
       } else if(processed === false) {
         root.removeAttribute(name);
       } else if(processed === true) {
-        root.setAttribute(name, '');
+        if(isSVG) {
+          const namespace = getNamespaceForAttribute(name);
+          root.setAttributeNS(namespace, name, '');
+        } else {
+          root.setAttribute(name, '');
+        }
       }
     },
     addEventListener(name: string, handler: () => void) {

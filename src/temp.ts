@@ -4,11 +4,11 @@ import { compile } from "./compiler";
 console.log('Compiling ...');
 const result = compile(`
 class {
-
+  test = null;
 }
 
 <div>
-  <use stroke-width="2"></use>
+  <div>{ this.test }</div>
 </div>
 `);
 console.log(result);

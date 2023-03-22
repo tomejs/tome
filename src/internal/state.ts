@@ -6,7 +6,7 @@ export default function state(obj: Object, cb: () => void): any {
   let shouldUpdate = true;
   const reactive = new Proxy(obj, {
     get(target: {[key: string]: any}, key: any) {
-      if (typeof target[key] === "object") {
+      if (typeof target[key] === "object" && target[key] !== null) {
         return state(target[key], cb);
       } else {
         if(Array.isArray(target) && typeof target[key] === 'function' && arrayMutationMethods.includes(key)) {
