@@ -89,6 +89,7 @@ export default class Component {
 
   unmount() {
     this.$$pub('destroy');
+    this.$$subs = {};
     this.$$nodes.forEach((node: Node) => {
       node.unmount();
     });
