@@ -6,9 +6,9 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
   let blocks: ListKeyedBlockMap = {};
   let cacheList: any[] = [];
   let cacheIndexByKey: { [key: string]: number} = {};
+  let list = listFn();
 
   function create() {
-    const list = listFn();
     list.forEach((item, index) => {
       const keyObj = keyFn(item, index);
       if(!keyObj) throw new Error('Key function must return a value');
@@ -40,7 +40,7 @@ export default function keyedEach(listFn: ListFunction, keyFn: KeyFunction, crea
       cacheList = [];
     },
     update() {
-      const list = listFn();
+      list = listFn();
       const indexByKey: { [key: string]: number } = {};
       const itemByKey: { [key: string]: any } = {};
       const newBlocks: ListKeyedBlockMap = {};
