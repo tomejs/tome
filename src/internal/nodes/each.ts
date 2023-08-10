@@ -18,7 +18,7 @@ export default function each(listFn: ListFunction, createFn: ListBlockCreationFu
 
       const list = listFn();
       blocks = list.map((_, index) => {
-        const { nodes, update } = createFn(() => list[index], () => index);
+        const { nodes, update } = createFn(() => listFn()[index], () => index);
         nodes.forEach(node => node.mount(parentNode, anchor));
         return { nodes, update };
       });
