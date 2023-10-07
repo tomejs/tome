@@ -16,27 +16,25 @@ export default function each(listFn: ListFunction, createFn: ListBlockCreationFu
         parent.append(anchor);
       }
 
-      const list = listFn();
-      blocks = list.map((_, index) => {
+      blocks = listFn().map((_, index) => {
         const { nodes, update } = createFn(() => listFn()[index], () => index);
         nodes.forEach(node => node.mount(parentNode, anchor));
         return { nodes, update };
       });
 
-      cache = [...list];
+      cache = [...listFn()];
     },
     unmount() {
       anchor.remove();
       blocks.forEach(block => block.nodes.forEach(node => node.unmount()));
     },
     update() {
-      const list = listFn();
-      const diff = list.length - cache.length;
+      const diff = listFn().length - cache.length;
 
       if(diff > 0) {
         for(let i=0; i<diff; i++) {
           const index = cache.length + i;
-          const { nodes, update }= createFn(() => list[index], () => index);
+          const { nodes, update }= createFn(() => listFn()[index], () => index);
           nodes.forEach(node => node.mount(parentNode, anchor));
           blocks.push({ nodes, update });
         }
@@ -46,13 +44,13 @@ export default function each(listFn: ListFunction, createFn: ListBlockCreationFu
         }
       }
 
-      for(let i=0; i<list.length; i++) {
-        if(list[i] !== cache[i]) {
-          blocks[i].update(list[i]);
+      for(let i=0; i<listFn().length; i++) {
+        if(listFn()[i] !== cache[i]) {
+          blocks[i].update(listFn()[i]);
         }
       }
 
-      cache = [...list];
+      cache = [...listFn()];
     },
   }
 }
